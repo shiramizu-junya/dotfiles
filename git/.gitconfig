@@ -1,0 +1,280 @@
+# ============================================================
+# 1. ユーザー情報（氏名・メールは各Mac固有のため .gitconfig.local に分離）
+#    → ~/.gitconfig.local を作成して [user] を記述する（gitignore対象）
+#    → 雛形: git/.gitconfig.local.example
+# ============================================================
+[include]
+	path = ~/.gitconfig.local
+
+# ============================================================
+# 2. コア設定
+# ============================================================
+[core]
+	# グローバル.gitignoreファイルのパス
+	excludesfile = /Users/shiramizujunya/.gitignore_global
+
+	# デフォルトエディタ（vim使用）
+	editor = vim
+
+	# ページャーにdeltaを使用（美しいdiff表示）
+	pager = delta
+
+	# 改行コードの自動変換（Windowsとの互換性）
+	# input: チェックアウト時は変換しない、コミット時はLFに統一
+	autocrlf = input
+
+	# 日本語ファイル名を正しく表示（エスケープしない）
+	quotepath = false
+
+	# パフォーマンス向上のためpreloadindexを有効化
+	preloadindex = true
+
+	# ファイルシステムキャッシュを有効化（Windows/Mac）
+	fscache = true
+
+# ============================================================
+# 3. 初期化設定
+# ============================================================
+[init]
+	# デフォルトブランチ名をmainに設定
+	defaultBranch = main
+
+# ============================================================
+# 4. コミット設定
+# ============================================================
+[commit]
+	# コミットメッセージのテンプレート
+	template = /Users/shiramizujunya/.stCommitMsg
+
+	# コミット時にGPG署名を要求（セキュリティ向上）
+	# gpgsign = true  # 必要に応じてコメント解除
+
+# ============================================================
+# 5. 差分表示設定
+# ============================================================
+[diff]
+	# 差分表示ツールにvimdiffを使用
+	tool = vimdiff
+
+	# リネームや移動を色で強調表示
+	colorMoved = default
+
+	# アルゴリズムにpatience（より正確な差分）
+	algorithm = patience
+
+	# より詳細なリネーム検出
+	renames = copies
+
+[difftool]
+	# difftoolを使用時に確認プロンプトを表示しない
+	prompt = false
+
+# ============================================================
+# 6. マージ設定
+# ============================================================
+[merge]
+	# マージツールにvimdiffを使用
+	tool = vimdiff
+
+	# コンフリクト時にdiff3形式で表示（3方向マージ）
+	# 自分の変更 | 共通の祖先 | 相手の変更 を表示
+	conflictstyle = diff3
+
+	# Fast-forwardできる場合でもマージコミットを作成
+	# ff = false  # 必要に応じてコメント解除
+
+[mergetool]
+	# マージ後にバックアップファイルを残さない
+	keepBackup = false
+
+	# mergetoolの終了コードを信頼
+	trustExitCode = true
+
+# ============================================================
+# 7. 色設定
+# ============================================================
+[color]
+	# 各コマンドで色を自動的に使用
+	ui = auto
+	status = auto
+	diff = auto
+	branch = auto
+	interactive = auto
+	grep = auto
+
+# ============================================================
+# 8. ステータス設定
+# ============================================================
+[status]
+	# 未追跡ディレクトリ内のファイルも表示
+	showUntrackedFiles = normal
+
+	# サブモジュールの変更も表示
+	submoduleSummary = true
+
+# ============================================================
+# 9. リモート操作設定
+# ============================================================
+[push]
+	# 現在のブランチを同名のリモートブランチにプッシュ
+	default = current
+
+	# タグを自動的にプッシュしない（明示的にのみ）
+	followTags = false
+
+	# プッシュ前にリモートの更新を自動的にフェッチ
+	autoSetupRemote = true
+
+[pull]
+	# pullをrebaseで実行（マージコミットを作らない）
+	rebase = true
+
+	# Fast-forwardできる場合のみpullを許可
+	# ff = only  # 必要に応じてコメント解除
+
+[fetch]
+	# fetch時に削除されたリモートブランチを自動的に削除
+	prune = true
+
+	# サブモジュールも一緒にfetch
+	recurseSubmodules = on-demand
+
+[rebase]
+	# rebase前に変更を自動的にstash
+	autoStash = true
+
+	# rebase時に自動的にsquash
+	autoSquash = true
+
+# ============================================================
+# 10. ブランチ・タグ設定
+# ============================================================
+[branch]
+	# ブランチを最終コミット日時の降順でソート
+	sort = -committerdate
+
+	# 新しいブランチ作成時に自動的にリモートを追跡
+	autoSetupMerge = simple
+
+[tag]
+	# タグをバージョン順にソート（v1.0.0, v1.0.1, v1.1.0...）
+	sort = version:refname
+
+# ============================================================
+# 11. その他の便利設定
+# ============================================================
+[help]
+	# コマンドのタイプミスを自動修正（0.1秒後）
+	autocorrect = 1
+
+# [rerere]
+	# 同じコンフリクト解決を記憶して自動適用
+	# enabled = true
+
+[log]
+	# git logでの日付フォーマット
+	date = iso
+
+[blame]
+	# git blameで空白の変更を無視
+	ignoreRevsFile = .git-blame-ignore-revs
+
+# ============================================================
+# 12. エイリアス
+# ============================================================
+[alias]
+	# 以下は既存のzshrcで定義済みのため、ここでは空
+	# 必要に応じてgitコマンド専用のエイリアスを追加可能
+
+	# おすすめエイリアス（コメント解除して使用）
+	# st = status
+	# co = checkout
+	# br = branch
+	# ci = commit
+	# unstage = reset HEAD --
+	# last = log -1 HEAD
+	# visual = !gitk
+	# tree = log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative
+
+# ============================================================
+# 13. delta設定（差分表示の美化）
+# ============================================================
+[delta]
+	# サイドバイサイド表示
+	side-by-side = true
+
+	# 行番号を表示
+	line-numbers = true
+
+	# n/Nでハンク間を移動可能
+	navigate = true
+
+	# ダークテーマを使用
+	dark = true
+
+	# ファイルやコミットへのハイパーリンクを有効化
+	hyperlinks = true
+
+	# 行の最大長（0は無制限）
+	max-line-length = 0
+
+	# シンタックスハイライトのテーマ
+	syntax-theme = Monokai Extended
+
+	# ファイル名のスタイル
+	file-style = bold yellow ul
+
+	# 追加行のスタイル
+	plus-style = syntax "#003800"
+	plus-emph-style = syntax "#006000"
+
+	# 削除行のスタイル
+	minus-style = syntax "#3f0001"
+	minus-emph-style = syntax "#8b0000"
+
+[interactive]
+	# インタラクティブモードでdeltaを使用
+	diffFilter = delta --color-only
+
+# ============================================================
+# 14. Git LFS設定
+# ============================================================
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+
+# ============================================================
+# 15. ghq設定（リポジトリ管理）
+# ============================================================
+[ghq]
+	# ghqのルートディレクトリ
+	root = ~/workspace
+
+# ============================================================
+# 16. ツール連携設定
+# ============================================================
+# Sourcetree設定（使用している場合のみ）
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path =
+
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+
+# ============================================================
+# 参考：便利な設定（必要に応じて追加）
+# ============================================================
+# [url "git@github.com:"]
+#     # HTTPS URLをSSHに自動変換
+#     insteadOf = https://github.com/
+#
+# [credential]
+#     # 認証情報をキャッシュ（15分）
+#     helper = cache --timeout=900
+#
+# [includeIf "gitdir:~/work/"]
+#     # 仕事用ディレクトリで別の設定を読み込む
+#     path = ~/.gitconfig-work

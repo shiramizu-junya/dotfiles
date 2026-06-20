@@ -1,0 +1,18 @@
+# ============================================================
+# Brewfile.personal（個人Macのみ）— `make brew-personal` で導入
+# 会社Macには入れない、プライベート用アプリ
+# ============================================================
+
+brew "mas"                       # Mac App Store CLI（App Storeアプリの自動install用）
+
+# --- GUI（cask）---
+cask "discord"
+cask "zoom"
+cask "mattermost"                # RUNTEQ の Mattermost サーバに接続して使用
+
+# --- Mac App Store（mas）---
+# アプリIDは mas インストール後に `mas search <名前>` で取得して記入する。
+# （App Storeにサインインした状態で `mas list` でも確認可能）
+# mas "LINE",          id: 539883307
+# mas "Amazon Kindle", id: 302584613
+# mas "ScreenPointer",  id: 1494222827

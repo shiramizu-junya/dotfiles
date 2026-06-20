@@ -1,0 +1,7 @@
+# このファイルをコピーして ~/.zshenv を作成し、各自のトークンを設定する。
+#   cp ~/dotfiles/zsh/.zshenv.example ~/.zshenv
+# ~/.zshenv は秘密情報のため Git 管理しない（.gitignore 対象）。
+export GITHUB_PERSONAL_ACCESS_TOKEN=""
+export NOTION_ACCESS_TOKEN=""
+export SUPABASE_ACCESS_TOKEN=""
+export CONTEXT7_API_KEY=""

@@ -1,0 +1,62 @@
+{
+  "notion": {
+    "command": "npx",
+    "args": [
+      "-y",
+      "@notionhq/notion-mcp-server"
+    ],
+    "env": {
+      "OPENAPI_MCP_HEADERS": "{\"Authorization\":\"Bearer ${NOTION_ACCESS_TOKEN}\",\"Notion-Version\":\"2022-06-28\"}"
+    }
+  },
+  "supabase": {
+    "command": "npx",
+    "args": [
+      "-y",
+      "@supabase/mcp-server-supabase@latest",
+      "--access-token",
+      "${SUPABASE_ACCESS_TOKEN}"
+    ]
+  },
+  "playwright": {
+    "command": "npx",
+    "args": [
+      "@playwright/mcp@latest"
+    ]
+  },
+  "context7": {
+    "type": "http",
+    "url": "https://mcp.context7.com/mcp",
+    "headers": {
+      "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
+    }
+  },
+  "chrome-devtools": {
+    "type": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "chrome-devtools-mcp@latest",
+      "--no-usage-statistics"
+    ],
+    "env": {}
+  },
+  "drawio": {
+    "command": "npx",
+    "args": [
+      "-y",
+      "@drawio/mcp"
+    ]
+  },
+  "dbhub": {
+    "command": "npx",
+    "args": [
+      "-y",
+      "@bytebase/dbhub",
+      "--transport",
+      "stdio",
+      "--config",
+      "${HOME}/.config/dbhub/dbhub.toml"
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+# このファイルをコピーして ~/.gitconfig.local を作成し、各Mac用に編集する。
+#   cp ~/dotfiles/git/.gitconfig.local.example ~/.gitconfig.local
+# ~/.gitconfig.local は Git 管理しない（.gitignore 対象）。
+[user]
+	name  = Shiramizu_Junya
+	email =      # このMacで使うメール（個人=個人アドレス / 職場=会社アドレス）
+	# signingkey =    # 将来コミット署名する場合に設定

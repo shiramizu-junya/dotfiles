@@ -1,0 +1,7 @@
+# このファイルをコピーして ~/.zshrc.local を作成（任意・マシン固有設定用）。
+#   cp ~/dotfiles/zsh/.zshrc.local.example ~/.zshrc.local
+# 例: 社内プロキシ、職場専用の PATH やエイリアスなど。Git 管理しない。
+#
+# export http_proxy="http://proxy.example.co.jp:8080"
+# export https_proxy="$http_proxy"
+# alias work="cd ~/work"

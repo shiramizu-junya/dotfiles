@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# gitleaks による秘密スキャン（pre-commit）。
+# 検出されたら commit を中止する。Claude Code 等が誤って秘密をコミットするのを防ぐ。
+set -euo pipefail
+
+if command -v gitleaks >/dev/null 2>&1; then
+  echo "🔍 gitleaks: ステージされた変更を秘密スキャン中..."
+  gitleaks protect --staged --redact -v
+else
+  echo "⚠️  gitleaks 未インストール。'brew install gitleaks' を推奨します（今回はスキップ）。" >&2
+fi

@@ -1,0 +1,42 @@
+// Zed keymap — Vim space-leader bindings
+//
+// 参照: `zed: open default keymap` でデフォルト一覧、
+//       `zed: open all actions` で全アクション名が見られます。
+//
+// リーダーキー = space(ノーマル/ビジュアルモードのみ有効)。
+// 連続キー("space c f" など)はスペース区切りで書けます。
+[
+    {
+        "context": "vim_mode == normal || vim_mode == visual",
+        "bindings": {
+            // --- ファイル・検索 ---
+            "space space": "file_finder::Toggle",      // ファイルを探して開く
+            "space /": "pane::DeploySearch",            // プロジェクト全体を検索
+            "space ,": "tab_switcher::Toggle",          // 最近のタブ切替
+
+            // --- パネル開閉 ---
+            "space e": "project_panel::ToggleFocus",    // ファイルツリー
+            "space g": "git_panel::ToggleFocus",        // Git パネル
+            "space t": "terminal_panel::ToggleFocus",   // ターミナル
+            "space b": "workspace::ToggleLeftDock",     // 左 dock をたたむ/出す
+
+            // --- バッファ操作 ---
+            "space w": "workspace::Save",               // 保存(write)
+            "space q": "pane::CloseActiveItem",         // タブを閉じる
+
+            // --- コードナビゲーション ---
+            "space o": "outline::Toggle",               // ファイル内シンボル一覧
+            "space s": "project_symbols::Toggle",       // プロジェクト全体のシンボル
+            "space d": "editor::GoToDefinition",        // 定義へジャンプ
+            "space x": "editor::GoToDiagnostic",        // 次のエラー/警告へ
+
+            // --- コードアクション(c = code) ---
+            "space c r": "editor::Rename",              // シンボル名変更
+            "space c a": "editor::ToggleCodeActions",   // クイックフィックス
+            "space c f": "editor::Format",              // フォーマット
+
+            // --- その他 ---
+            "space p": "command_palette::Toggle"        // コマンドパレット
+        }
+    }
+]

@@ -2,8 +2,13 @@
 # Brewfile（共通）— 全Macに導入。 `make brew` で一括インストール
 # ============================================================
 
+# --- tap ---
+tap "supabase/tap"               # Supabase CLI 用
+tap "domt4/autoupdate"           # brew 自動更新（formula無し。`brew autoupdate start` で有効化）
+
 # --- CLI ---
 brew "asdf"                      # 言語バージョン管理（node等）
+brew "supabase/tap/supabase"     # Supabase CLI
 brew "git"
 brew "gh"                        # GitHub CLI
 brew "ghq"                       # リポジトリ管理

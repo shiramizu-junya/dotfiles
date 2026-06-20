@@ -157,3 +157,7 @@ make prune       # リンク切れ(幽霊リンク)を掃除
 ```
 
 > backup は `make link` のたびに `~/.dotfiles-backup/<日時>/` に自動退避される。
+
+> **tap信頼**: Homebrew 6+ は非公式tap(`supabase/tap` `domt4/autoupdate`)に信頼登録(`brew trust`)が必須。
+> `make brew` が自動で行うが、手動で `brew bundle` する場合は先に
+> `brew trust --tap supabase/tap domt4/autoupdate` を実行する。

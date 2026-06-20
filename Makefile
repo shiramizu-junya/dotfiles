@@ -3,11 +3,13 @@
 # 使い方: make help
 # ============================================================
 
-ROOT     := $(patsubst %/,%,$(dir $(realpath $(lastword $(MAKEFILE_LIST)))))
-EXCLUDE  := iterm2 hooks claude
-PACKAGES := $(filter-out $(EXCLUDE),$(shell cd $(ROOT) && ls -d */ 2>/dev/null | tr -d '/'))
-BACKUP   := $(HOME)/.dotfiles-backup/$(shell date +%Y%m%d-%H%M%S)
-STOW     := stow --no-folding -d $(ROOT) -t $(HOME)
+ROOT       := $(patsubst %/,%,$(dir $(realpath $(lastword $(MAKEFILE_LIST)))))
+EXCLUDE    := iterm2 hooks claude
+PACKAGES   := $(filter-out $(EXCLUDE),$(shell cd $(ROOT) && ls -d */ 2>/dev/null | tr -d '/'))
+BACKUP     := $(HOME)/.dotfiles-backup/$(shell date +%Y%m%d-%H%M%S)
+STOW       := stow --no-folding -d $(ROOT) -t $(HOME)
+# Homebrew 6+ は非公式tapに信頼登録(brew trust)が必須。bundle前に信頼する。
+TRUST_TAPS := supabase/tap domt4/autoupdate
 
 .DEFAULT_GOAL := help
 .PHONY: help doctor dry-run backup link hooks brew brew-personal runtime plugins mcp bootstrap uninstall restore prune brew-cleanup
@@ -19,7 +21,7 @@ help:
 	@echo "  make dry-run       何が起きるか確認（変更しない）"
 	@echo "  make doctor        健全性チェック（変更しない）"
 	@echo "  make link          backup→stowリンク→gitleaksフック設置"
-	@echo "  make brew          Brewfile(共通)を導入"
+	@echo "  make brew          Brewfile(共通)を導入（tap信頼も自動）"
 	@echo "  make brew-personal Brewfile.personal(個人)を導入"
 	@echo "  make runtime       asdf install（言語ランタイム）"
 	@echo "  make plugins       vim-plug / TPM プラグイン取得"
@@ -56,6 +58,8 @@ hooks:
 	@cd $(ROOT) && git config core.hooksPath hooks 2>/dev/null && echo "✅ gitleaks pre-commit フック有効化" || echo "  (git init 後に再実行してください)"
 
 brew:
+	@for t in $(TRUST_TAPS); do brew tap $$t 2>/dev/null || true; done
+	@brew trust --tap $(TRUST_TAPS) 2>/dev/null || true
 	cd $(ROOT) && brew bundle --file=Brewfile
 
 brew-personal:
@@ -86,8 +90,9 @@ bootstrap:
 	@echo "  1) cp zsh/.zshenv.example ~/.zshenv          # トークンを記入"
 	@echo "  2) cp git/.gitconfig.local.example ~/.gitconfig.local  # メールを記入"
 	@echo "  3) make mcp                                  # MCPサーバ登録（要 ~/.zshenv）"
-	@echo "  4) iTerm2 の設定フォルダを $(ROOT)/iterm2 に向ける（iterm2/README.md参照）"
-	@echo "  5) 個人Macなら make brew-personal"
+	@echo "  4) brew autoupdate start --upgrade           # brew自動更新を有効化"
+	@echo "  5) iTerm2 の設定フォルダを $(ROOT)/iterm2 に向ける（iterm2/README.md参照）"
+	@echo "  6) 個人Macなら make brew-personal"
 
 uninstall:
 	$(STOW) -D -v $(PACKAGES)

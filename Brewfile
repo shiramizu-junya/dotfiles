@@ -17,10 +17,13 @@ brew "ripgrep"                   # 高速grep
 brew "fd"                        # 高速find
 brew "bat"                       # cat の強化版
 brew "eza"                       # ls の強化版
+brew "zoxide"                    # 学習する cd（z <部分名> でジャンプ）
+brew "direnv"                    # ディレクトリ毎の環境変数を .envrc で自動ロード
 brew "jq"                        # JSON操作
 brew "tree"
 brew "tldr"                      # 簡易man
 brew "git-delta"                 # git diff の見やすい表示
+brew "lazygit"                   # git の TUI（対話的ステージ/rebase/cherry-pick）
 brew "neovim"
 brew "tmux"
 brew "starship"                  # プロンプト

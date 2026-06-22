@@ -12,6 +12,15 @@ fi
 # 補完システム初期化（1回だけ！）
 autoload -Uz compinit && compinit
 
+# fzf-tab: Tab補完をfzf化（compinitの後・autosuggestionsの前に読むのが鉄則）
+if [ -f ~/.config/zsh/fzf-tab/fzf-tab.plugin.zsh ]; then
+  source ~/.config/zsh/fzf-tab/fzf-tab.plugin.zsh
+  # cd補完: ディレクトリツリーをプレビュー
+  zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --tree --level=1 --icons $realpath 2>/dev/null'
+  # グループ間を < > で移動
+  zstyle ':fzf-tab:*' switch-group '<' '>'
+fi
+
 # ============================================================
 # 2. 初期化・読み込み
 # ============================================================
@@ -26,6 +35,16 @@ ssh-add --apple-use-keychain ~/.ssh/id_ed25519 2>/dev/null
 
 # Starshipプロンプト初期化
 eval "$(starship init zsh)"
+
+# zoxide: 訪問頻度を学習する cd。`z <部分名>` でジャンプ / `zi` で fzf 選択
+if type zoxide &>/dev/null; then
+  eval "$(zoxide init zsh)"
+fi
+
+# direnv: ディレクトリごとの環境変数を .envrc で自動ロード（cd した瞬間に反映）
+if type direnv &>/dev/null; then
+  eval "$(direnv hook zsh)"
+fi
 
 # GitHub CLI補完（compinitの後に実行）
 if type gh &>/dev/null; then

@@ -35,6 +35,7 @@ brew "git-town"                  # gitブランチ運用補助
 brew "uv"                        # Python パッケージ/バージョン管理
 brew "stow"                      # dotfiles シンボリックリンク管理
 brew "gitleaks"                  # 秘密検出（pre-commitで使用）
+brew "shellcheck"                # シェルスクリプトの静的解析（CIでも使用）
 
 # --- GUI（cask）---
 cask "iterm2"

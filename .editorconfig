@@ -1,0 +1,21 @@
+# https://editorconfig.org — エディタ間でインデント・改行などを統一する
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+# Makefile と gitconfig はタブ必須/慣習
+[Makefile]
+indent_style = tab
+
+[.gitconfig]
+indent_style = tab
+
+# Markdown は行末2スペースが改行の意味を持つのでトリムしない
+[*.md]
+trim_trailing_whitespace = false

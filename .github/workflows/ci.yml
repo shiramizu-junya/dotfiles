@@ -1,0 +1,35 @@
+name: ci
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0            # gitleaks の履歴スキャン用に全履歴を取得
+
+      # シェルスクリプトの静的解析
+      - name: shellcheck
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck
+          shellcheck hooks/pre-commit claude/mcp-setup.sh
+
+      # 秘密情報の混入スキャン（履歴含む）。個人/公開リポジトリはライセンス不要
+      - name: gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # stow のリンク衝突をドライランで検知（一時ディレクトリを HOME 代わりに使用）
+      - name: stow dry-run
+        run: |
+          sudo apt-get install -y stow
+          mkdir -p "$RUNNER_TEMP/home"
+          # Makefile の EXCLUDE(iterm2 hooks claude) と同じパッケージ集合でドライラン
+          for pkg in $(ls -d */ | sed 's#/##' | grep -vxE 'iterm2|hooks|claude'); do
+            echo "== stow -n $pkg =="
+            stow -n -v -d . -t "$RUNNER_TEMP/home" "$pkg"
+          done

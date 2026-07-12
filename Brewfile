@@ -24,7 +24,6 @@ brew "tree"
 brew "tldr"                      # 簡易man
 brew "git-delta"                 # git diff の見やすい表示
 brew "lazygit"                   # git の TUI（対話的ステージ/rebase/cherry-pick）
-brew "neovim"
 brew "tmux"
 brew "starship"                  # プロンプト
 brew "zsh-autosuggestions"
@@ -40,7 +39,8 @@ brew "gitleaks"                  # 秘密検出（pre-commitで使用）
 # --- GUI（cask）---
 cask "iterm2"
 cask "zed"
-cask "docker"
+cask "visual-studio-code"        # GUIエディタ（zed と併用。関数の $GUI_EDITOR 既定）
+cask "docker-desktop"            # 旧トークン docker からリネーム
 cask "dbeaver-community"
 cask "postman"
 cask "chatgpt"

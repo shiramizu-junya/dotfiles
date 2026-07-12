@@ -10,8 +10,7 @@
 # 2. コア設定
 # ============================================================
 [core]
-	# グローバル.gitignoreファイルのパス（~ を使い、どのMac（別ユーザー名）でも動くように）
-	excludesfile = ~/.gitignore_global
+	# グローバル無視は ~/.config/git/ignore（XDG）に一本化したので excludesfile は不要
 
 	# デフォルトエディタ（vim使用）
 	editor = vim

@@ -14,8 +14,14 @@ if type asdf &>/dev/null; then
   fpath=("${ASDF_DATA_DIR:-$HOME/.asdf}/completions" $fpath)
 fi
 
-# 補完システム初期化（1回だけ！）
-autoload -Uz compinit && compinit
+# 補完システム初期化（起動高速化: ~/.zcompdump が24時間以内ならキャッシュ利用(-C)、
+# そうでなければフル実行してダンプを更新する）
+autoload -Uz compinit
+if [[ -n ~/.zcompdump(#qNmh-24) ]]; then
+  compinit -C
+else
+  compinit
+fi
 
 # fzf-tab: Tab補完をfzf化（compinitの後・autosuggestionsの前に読むのが鉄則）
 if [ -f ~/.config/zsh/fzf-tab/fzf-tab.plugin.zsh ]; then
@@ -117,6 +123,10 @@ export LC_ALL=ja_JP.UTF-8
 # --- ツール設定 ---
 export BAT_THEME="Monokai Extended"
 export RIPGREP_CONFIG_PATH=~/.ripgreprc
+
+# GUIエディタ（ghcr/fghqv 等が使う）。既定は VS Code。Zed に切り替えるなら
+# ~/.zshrc.local で `export GUI_EDITOR=zed` とするだけでよい
+export GUI_EDITOR="${GUI_EDITOR:-code}"
 
 # --- fzf（ファジーファインダー） ---
 # fzfはあいまい検索ツール。ファイル・履歴・ブランチ等を絞り込み選択できる
@@ -284,7 +294,7 @@ ghcr() {
   local precloned="$base/github.com/$owner/$name"
   if [[ -d "$precloned/.git" ]]; then
     cd "$precloned"
-    command -v code >/dev/null 2>&1 && code "$precloned" || echo "Cloned at: $precloned"
+    command -v "$GUI_EDITOR" >/dev/null 2>&1 && "$GUI_EDITOR" "$precloned" || echo "Cloned at: $precloned"
     return 0
   fi
 
@@ -316,7 +326,7 @@ ghcr() {
 
   if [[ -n "$clone_path" ]]; then
     cd "$clone_path"
-    command -v code >/dev/null 2>&1 && code "$clone_path" || echo "Cloned at: $clone_path"
+    command -v "$GUI_EDITOR" >/dev/null 2>&1 && "$GUI_EDITOR" "$clone_path" || echo "Cloned at: $clone_path"
   else
     echo "Repository path not found after clone for $full" >&2
     return 1
@@ -423,7 +433,7 @@ fghqv() {
   selected=$(ghq list -p | fzf --preview 'eza --tree --level=2 --icons {} 2> /dev/null')
   if [ -n "$selected" ]; then
     cd "$selected"
-    code "$selected"
+    command -v "$GUI_EDITOR" >/dev/null 2>&1 && "$GUI_EDITOR" "$selected" || echo "Opened dir: $selected"
   fi
 }
 
@@ -486,17 +496,10 @@ fkill() {
 # 8. その他の設定
 # ============================================================
 
-# .zshrc変更時の自動リロード
-# .zshrcを編集して保存すると、次にEnterを押したタイミングで自動的にsourceされる
-# 手動で source ~/.zshrc を実行する必要がなくなる
-function reload_zshrc() {
-  if [[ ~/.zshrc -nt ~/.zshrc_last_load ]]; then
-    source ~/.zshrc
-    touch ~/.zshrc_last_load
-  fi
-}
-autoload -Uz add-zsh-hook
-add-zsh-hook precmd reload_zshrc
+# .zshrc を編集したら `reload` で反映する。
+# ※ 以前は precmd フックで毎プロンプト自動 re-source していたが、PATH/fpath の多重追加や
+#    starship/syntax-highlighting の二重初期化を招くため、明示的な再起動(exec zsh)に変更した
+alias reload='exec zsh'
 
 # インストールしたコマンドを即座に認識
 zstyle ":completion:*:commands" rehash 1

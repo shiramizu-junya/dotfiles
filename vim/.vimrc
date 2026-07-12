@@ -25,7 +25,7 @@ Plug 'tpope/vim-fugitive'                             " Git操作をVim内で実
 Plug 'tpope/vim-commentary'                           " コメントアウトを簡単に
 Plug 'tpope/vim-surround'                             " 囲み文字の操作
 Plug 'jiangmiao/auto-pairs'                           " 括弧の自動補完
-Plug 'terryma/vim-multiple-cursors'                   " マルチカーソル編集
+Plug 'mg979/vim-visual-multi'                         " マルチカーソル編集（Ctrl-n。旧 terryma/vim-multiple-cursors の後継）
 
 " --- 表示・UI ---
 Plug 'itchyny/lightline.vim'                          " ステータスライン改善

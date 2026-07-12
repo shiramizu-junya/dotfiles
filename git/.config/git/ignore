@@ -1,1 +1,6 @@
+# グローバル .gitignore（XDG。git が ~/.config/git/ignore を自動で読む）
+# ここに一本化した（旧 ~/.gitignore_global + core.excludesfile は廃止）
+*~
+.DS_Store
+
 **/.claude/settings.local.json

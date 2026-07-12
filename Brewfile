@@ -32,7 +32,7 @@ brew "zsh-completions"
 brew "zsh-syntax-highlighting"
 brew "act"                       # GitHub Actions ローカル実行
 brew "git-town"                  # gitブランチ運用補助
-brew "mysql"                     # ローカルDB
+# mysql はホスト直インストールを廃止し、各プロジェクトで Docker のコンテナとして起動する
 brew "uv"                        # Python パッケージ/バージョン管理
 brew "stow"                      # dotfiles シンボリックリンク管理
 brew "gitleaks"                  # 秘密検出（pre-commitで使用）

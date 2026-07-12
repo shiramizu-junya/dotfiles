@@ -124,9 +124,9 @@ export LC_ALL=ja_JP.UTF-8
 export BAT_THEME="Monokai Extended"
 export RIPGREP_CONFIG_PATH=~/.ripgreprc
 
-# GUIエディタ（ghcr/fghqv 等が使う）。既定は VS Code。Zed に切り替えるなら
-# ~/.zshrc.local で `export GUI_EDITOR=zed` とするだけでよい
-export GUI_EDITOR="${GUI_EDITOR:-code}"
+# GUIエディタ（ghcr/fghqv 等が使う）。既定は Zed。VS Code に切り替えるなら
+# ~/.zshrc.local で `export GUI_EDITOR=code` とするだけでよい
+export GUI_EDITOR="${GUI_EDITOR:-zed}"
 
 # --- fzf（ファジーファインダー） ---
 # fzfはあいまい検索ツール。ファイル・履歴・ブランチ等を絞り込み選択できる

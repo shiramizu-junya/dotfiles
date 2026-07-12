@@ -52,7 +52,8 @@ cask "deepl"
 cask "raycast"
 cask "appcleaner"
 cask "imageoptim"
-cask "flow"                      # ポモドーロタイマー
+# flow（ポモドーロ）は 2025-11-05 に upstream 消滅で Homebrew から無効化されたため削除。
+# 代替が必要なら pomatez / tomatobar 等を検討
 
 # --- フォント（starshipのアイコン表示に必要）---
 cask "font-hack-nerd-font"

@@ -9,6 +9,11 @@ if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
 fi
 
+# asdf補完（Go版）を fpath に追加。★compinit より前でないと読み込まれない
+if type asdf &>/dev/null; then
+  fpath=("${ASDF_DATA_DIR:-$HOME/.asdf}/completions" $fpath)
+fi
+
 # 補完システム初期化（1回だけ！）
 autoload -Uz compinit && compinit
 
@@ -52,12 +57,8 @@ if type gh &>/dev/null; then
 fi
 
 # asdf shimsをPATHに追加（asdf 0.16+のGo版は asdf.sh を提供しないため手動で追加）
+# 補完(fpath)は compinit 前に移動済み（上部参照）
 export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
-
-# asdf補完（Go版）
-if type asdf &>/dev/null; then
-  fpath=("${ASDF_DATA_DIR:-$HOME/.asdf}/completions" $fpath)
-fi
 
 # uv/uvx補完
 if type uv &>/dev/null; then

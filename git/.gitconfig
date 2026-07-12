@@ -10,8 +10,8 @@
 # 2. コア設定
 # ============================================================
 [core]
-	# グローバル.gitignoreファイルのパス
-	excludesfile = /Users/shiramizujunya/.gitignore_global
+	# グローバル.gitignoreファイルのパス（~ を使い、どのMac（別ユーザー名）でも動くように）
+	excludesfile = ~/.gitignore_global
 
 	# デフォルトエディタ（vim使用）
 	editor = vim
@@ -43,9 +43,6 @@
 # 4. コミット設定
 # ============================================================
 [commit]
-	# コミットメッセージのテンプレート
-	template = /Users/shiramizujunya/.stCommitMsg
-
 	# コミット時にGPG署名を要求（セキュリティ向上）
 	# gpgsign = true  # 必要に応じてコメント解除
 

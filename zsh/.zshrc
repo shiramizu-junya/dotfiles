@@ -41,8 +41,13 @@ if [ -z "$SSH_AUTH_SOCK" ]; then
   eval "$(ssh-agent -s)" > /dev/null 2>&1
 fi
 
-# macOS Keychainから鍵を読み込み
-ssh-add --apple-use-keychain ~/.ssh/id_ed25519 2>/dev/null
+# macOS Keychain から鍵を読み込み（~/.ssh/id_* の秘密鍵を全て。鍵名の決め打ちを避ける）
+# ※ 通常は ~/.ssh/config の UseKeychain が自動ロードするので保険的な位置づけ
+for _key in ~/.ssh/id_*(N); do
+  [[ "$_key" == *.pub ]] && continue      # 公開鍵(.pub)はスキップ
+  ssh-add --apple-use-keychain "$_key" 2>/dev/null
+done
+unset _key
 
 # Starshipプロンプト初期化
 eval "$(starship init zsh)"

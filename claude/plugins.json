@@ -1,0 +1,23 @@
+{
+  "marketplaces": {
+    "claude-plugins-official": "anthropics/claude-plugins-official"
+  },
+  "plugins": {
+    "typescript-lsp@claude-plugins-official": {
+      "why": "TS/JS の型エラーを編集直後に検知させる（常時コスト 0 トークン）",
+      "requires": ["typescript-language-server"]
+    },
+    "pyright-lsp@claude-plugins-official": {
+      "why": "Python の型エラーを編集直後に検知させる（常時コスト 0 トークン）",
+      "requires": ["pyright-langserver"]
+    },
+    "security-guidance@claude-plugins-official": {
+      "why": "生成コードをフック4種で脆弱性レビュー（常時コスト 0 トークン）",
+      "requires": []
+    },
+    "commit-commands@claude-plugins-official": {
+      "why": "/commit /commit-push-pr /clean_gone（常時コスト 108 トークン）",
+      "requires": []
+    }
+  }
+}

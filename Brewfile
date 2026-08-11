@@ -37,6 +37,11 @@ brew "stow"                      # dotfiles シンボリックリンク管理
 brew "gitleaks"                  # 秘密検出（pre-commitで使用）
 brew "shellcheck"                # シェルスクリプトの静的解析（CIでも使用）
 
+# --- 言語サーバ（Claude Code の *-lsp プラグインが PATH から起動する）---
+# プラグイン側はバイナリを入れてくれないため、ここで必ず入れること。
+brew "typescript-language-server" # typescript-lsp プラグインが使う
+brew "pyright"                   # pyright-lsp プラグインが使う（pyright-langserver を提供）
+
 # --- GUI（cask）---
 cask "iterm2"
 cask "zed"

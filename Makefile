@@ -12,7 +12,7 @@ STOW       := stow --no-folding -d $(ROOT) -t $(HOME)
 TRUST_TAPS := supabase/tap domt4/autoupdate
 
 .DEFAULT_GOAL := help
-.PHONY: help doctor dry-run backup link hooks brew brew-personal runtime plugins mcp bootstrap uninstall restore prune brew-cleanup
+.PHONY: help doctor dry-run backup link hooks brew brew-personal runtime plugins mcp claude-plugins bootstrap uninstall restore prune brew-cleanup
 
 help:
 	@echo "dotfiles Makefile — 主なコマンド"
@@ -26,6 +26,7 @@ help:
 	@echo "  make runtime       asdf install（言語ランタイム）"
 	@echo "  make plugins       vim-plug / TPM プラグイン取得"
 	@echo "  make mcp           Claude Code の MCPサーバを登録"
+	@echo "  make claude-plugins Claude Code のプラグインを導入（要 make brew）"
 	@echo "  make uninstall     stowリンクを全削除"
 	@echo "  make restore       最新backupから実ファイルを復元"
 	@echo "  make prune         リンク切れ(幽霊リンク)を掃除"
@@ -81,6 +82,10 @@ mcp:
 	@command -v claude >/dev/null 2>&1 || { echo "claude CLI が無い。Claude Code を先に導入"; exit 1; }
 	bash $(ROOT)/claude/mcp-setup.sh
 
+claude-plugins:
+	@command -v claude >/dev/null 2>&1 || { echo "claude CLI が無い。Claude Code を先に導入"; exit 1; }
+	bash $(ROOT)/claude/plugin-setup.sh
+
 bootstrap:
 	$(MAKE) brew
 	$(MAKE) link
@@ -91,9 +96,10 @@ bootstrap:
 	@echo "  1) cp zsh/.zshenv.example ~/.zshenv          # トークンを記入"
 	@echo "  2) cp git/.gitconfig.local.example ~/.gitconfig.local  # メールを記入"
 	@echo "  3) make mcp                                  # MCPサーバ登録（要 ~/.zshenv）"
-	@echo "  4) brew autoupdate start --upgrade           # brew自動更新を有効化"
-	@echo "  5) iTerm2 の設定フォルダを $(ROOT)/iterm2 に向ける（iterm2/README.md参照）"
-	@echo "  6) 個人Macなら make brew-personal"
+	@echo "  4) make claude-plugins                       # Claude Code のプラグイン導入"
+	@echo "  5) brew autoupdate start --upgrade           # brew自動更新を有効化"
+	@echo "  6) iTerm2 の設定フォルダを $(ROOT)/iterm2 に向ける（iterm2/README.md参照）"
+	@echo "  7) 個人Macなら make brew-personal"
 
 uninstall:
 	$(STOW) -D -v $(PACKAGES)

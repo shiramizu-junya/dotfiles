@@ -28,16 +28,6 @@
 	<string>https://api.anthropic.com/v1/messages</string>
 	<key>AllowClipboardAccess</key>
 	<true/>
-	<key>AppleAntiAliasingThreshold</key>
-	<integer>1</integer>
-	<key>ApplePressAndHoldEnabled</key>
-	<false/>
-	<key>AppleScrollAnimationEnabled</key>
-	<integer>0</integer>
-	<key>AppleSmoothFixedFontsSizeThreshold</key>
-	<integer>1</integer>
-	<key>AppleWindowTabbingMode</key>
-	<string>manual</string>
 	<key>Default Bookmark Guid</key>
 	<string>139DAC42-7281-4607-B5C7-5708C2CFECEC</string>
 	<key>HapticFeedbackForEsc</key>
@@ -1037,6 +1027,8 @@
 			<key>Use Non-ASCII Font</key>
 			<false/>
 			<key>Use Separate Colors for Light and Dark Mode</key>
+			<true/>
+			<key>Use libtickit protocol</key>
 			<true/>
 			<key>Vertical Spacing</key>
 			<real>1</real>

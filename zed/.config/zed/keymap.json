@@ -38,5 +38,44 @@
             // --- その他 ---
             "space p": "command_palette::Toggle"        // コマンドパレット
         }
+    },
+
+    // --- 以下は .vimrc からの移植分（対応表は KEYMAP.md）---
+
+    {
+        // jj でインサートモードを抜ける
+        // .vimrc: inoremap <silent> jj <ESC>
+        // NormalBefore は Zed が Esc に割り当てているアクションそのもの
+        "context": "Editor && vim_mode == insert",
+        "bindings": {
+            "j j": "vim::NormalBefore"
+        }
+    },
+    {
+        "context": "vim_mode == normal",
+        "bindings": {
+            // 10行単位で移動（Zed 既定の shift-j = 行連結は潰れる。vim 側も同じ）
+            // .vimrc: nnoremap J 10j / nnoremap K 10k
+            "shift-j": ["workspace::SendKeystrokes", "1 0 j"],
+            "shift-k": ["workspace::SendKeystrokes", "1 0 k"],
+
+            // 半ページスクロールしたらカーソル行を画面中央へ寄せる
+            // .vimrc: nnoremap <C-d> <C-d>zz / nnoremap <C-u> <C-u>zz
+            // 引数内の ctrl-d は「次に優先度の高い定義」= Zed 既定にフォールバックするため再帰しない
+            "ctrl-d": ["workspace::SendKeystrokes", "ctrl-d z z"],
+            "ctrl-u": ["workspace::SendKeystrokes", "ctrl-u z z"]
+        }
+    },
+    {
+        // 矢印キーを無効化して hjkl に矯正する
+        // .vimrc: noremap <up> <nop> ほか
+        // インサートモードは意図的に対象外（補完メニューの上下選択が効かなくなるため）
+        "context": "vim_mode == normal || vim_mode == visual",
+        "bindings": {
+            "up": null,
+            "down": null,
+            "left": null,
+            "right": null
+        }
     }
 ]

@@ -53,7 +53,7 @@ make brew-personal
 | gh | `.config/gh/config.yml`（`hosts.yml` は除外） |
 | ripgrep | `.ripgreprc` |
 | asdf | `.tool-versions` `.asdfrc` |
-| zed | `.config/zed/settings.json` `keymap.json` |
+| zed | `.config/zed/settings.json` `keymap.json`（vim との対応は [KEYMAP.md](KEYMAP.md)） |
 
 ### stow 対象外（個別管理）
 - **iterm2**: iTerm2 純正のフォルダ同期で管理（`iterm2/README.md`）
@@ -172,4 +172,7 @@ make prune       # リンク切れ(幽霊リンク)を掃除
   - `gitleaks`（履歴含む秘密スキャン）
   - `stow -n`（リンク衝突のドライラン）
 - **`.editorconfig`**: エディタ間でインデント・改行を統一（2スペース既定、`Makefile`/`.gitconfig` は tab、`*.md` は行末保持）。
+- **[`KEYMAP.md`](KEYMAP.md)**: vim（`~/.vimrc`）と Zed（`keymap.json`）のキーマップ対応表。
+  **Zed は `.vimrc` を読まない**ため2つの設定が併存する。自動同期は行わず、この表を正として手動で揃える
+  （理由と、`SendKeystrokes` など Zed 固有の書き方は KEYMAP.md 内に記載）。
 - **`LICENSE`**: MIT。

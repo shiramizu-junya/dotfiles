@@ -18,6 +18,11 @@
         "dock": "left",
     },
     "agent": {
+        "default_model": {
+            "provider": "copilot_chat",
+            "model": "claude-haiku-4.5",
+            "enable_thinking": true
+        },
         "dock": "right",
         "favorite_models": [],
         "model_parameters": [],
@@ -68,7 +73,8 @@
         "line_numbers": true,
     },
     "minimap": {
-        "show": "always",
+        "thumb": "always",
+        "show": "never",
     },
     "rounded_selection": false,
     "current_line_highlight": "all",
@@ -101,14 +107,14 @@
     },
     "icon_theme": {
         "mode": "system",
-        "light": "Catppuccin Frappé",
-        "dark": "Zed (Default)",
+        "light": "Catppuccin Latte",
+        "dark": "Catppuccin Latte",
     },
-    "ui_font_size": 15.0,
-    "buffer_font_size": 18.0,
+    "ui_font_size": 17.0,
+    "buffer_font_size": 17.0,
     "theme": {
         "mode": "dark",
         "light": "One Dark",
-        "dark": "Catppuccin Macchiato - No Italics",
+        "dark": "Ayu Dark",
     },
 }

@@ -135,6 +135,30 @@ make brew-cleanup   # （任意・破壊的）Brewfileに無いアプリを削�
 | `make prune` | リンク切れを掃除 |
 | `make brew-cleanup` | Brewfileに無いものを削除（破壊的・確認あり） |
 
+## 6.5 言語ランタイムの管理方針
+
+**プログラミング言語は Homebrew で管理しない。**
+
+| 対象 | 管理するもの | 実体の場所 |
+|---|---|---|
+| Python | **uv** | `~/.local/bin/python*` → `~/.local/share/uv/python/` |
+| Node など | **asdf** | `~/.asdf/shims/` ← `asdf/.tool-versions` |
+| asdf / uv 自体 | **Homebrew** | `Brewfile` |
+
+`.zshrc` の PATH は、下へ行くほど優先される。最終的な順序は次のとおり。
+
+```
+~/.local/bin   >   ~/.asdf/shims   >   /opt/homebrew/bin
+（uv の python）    （asdf の node）     （道具。言語は入れない）
+```
+
+**Homebrew が依存として node や python を入れることはある**（`pyright` や
+`typescript-language-server` は node 製のため）。それ自体は避けられないが、
+上の順序により**手で打ったときに選ばれるのは asdf / uv のもの**になる。
+
+最新の安定版に上げたいときは `make runtime-latest`。
+asdf は `latest` を自動追従しないため、明示的に叩いて `.tool-versions` を更新する。
+
 ## 7. 環境差分の扱い（.local 方式）
 
 共通設定は Git 管理し、マシン固有の値は `.local` ファイルに分離する（Git管理しない）。

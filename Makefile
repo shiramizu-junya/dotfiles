@@ -22,6 +22,7 @@ help:
 	@echo "  make doctor        健全性チェック（変更しない）"
 	@echo "  make link          backup→stowリンク→gitleaksフック設置"
 	@echo "  make brew          Brewfile(共通)を導入（tap信頼も自動）"
+	@echo "  make runtime-latest 言語を最新安定版に上げて .tool-versions を更新"
 	@echo "  make brew-personal Brewfile.personal(個人)を導入"
 	@echo "  make runtime       asdf install（言語ランタイム）"
 	@echo "  make plugins       vim-plug / TPM プラグイン取得"
@@ -70,6 +71,21 @@ runtime:
 	@command -v asdf >/dev/null 2>&1 || { echo "asdf が無い。先に make brew"; exit 1; }
 	@asdf plugin add nodejs 2>/dev/null || true
 	cd $(HOME) && asdf install
+
+# 言語を最新の安定版に上げて .tool-versions に記録する。
+# asdf は latest を自動追従しないので、上げたいときに明示的に叩く。
+# ※ nodejs プラグインの版一覧は .node-build が持っている。古いままだと
+#    新しい版が見えないため、プラグイン更新を先に行う。
+runtime-latest:
+	@command -v asdf >/dev/null 2>&1 || { echo "asdf が無い。先に make brew"; exit 1; }
+	@asdf plugin update nodejs
+	@v=$$(asdf latest nodejs); echo "nodejs の最新: $$v"; \
+	  asdf install nodejs $$v; \
+	  printf 'nodejs %s\n' "$$v" > $(ROOT)/asdf/.tool-versions; \
+	  echo "asdf/.tool-versions を更新した。git diff で確認して commit すること"
+	@echo ""
+	@echo "Python は uv が管理する。最新にするなら:"
+	@echo "  uv python install --reinstall"
 
 plugins:
 	@[ -f $(HOME)/.vim/autoload/plug.vim ] || curl -fLo $(HOME)/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim

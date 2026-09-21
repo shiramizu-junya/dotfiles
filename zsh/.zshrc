@@ -67,9 +67,8 @@ if type gh &>/dev/null; then
   eval "$(gh completion -s zsh)"
 fi
 
-# asdf shimsをPATHに追加（asdf 0.16+のGo版は asdf.sh を提供しないため手動で追加）
+# asdf の PATH 追加は「3. パス設定」に移動した（順序が結果を左右するため）
 # 補完(fpath)は compinit 前に移動済み（上部参照）
-export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 
 # uv/uvx補完
 if type uv &>/dev/null; then
@@ -86,10 +85,23 @@ fi
 # 3. パス設定
 # ============================================================
 
-# Homebrew（基本パス）
+# ★ PATH は「後に書いたものが先に来る」。下へ行くほど優先度が上がる。
+#   最終的な優先順位:  ~/.local/bin  >  asdf/shims  >  /opt/homebrew/bin
+#
+#   方針: プログラミング言語は Homebrew で管理しない。
+#     - Python … uv が ~/.local/bin に置くリンクを使う
+#     - Node など … asdf が shims に置くものを使う
+#     - Homebrew … 言語そのものではなく、道具（asdf / uv 等）を入れる場所
+#   Homebrew が依存として node や python を入れることはあるが、
+#   この順序により、手で打ったときに選ばれるのは asdf / uv のものになる。
+
+# Homebrew（基本パス。いちばん優先度が低い）
 export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 
-# ローカルバイナリ
+# asdf shims（Node 等の言語。asdf 0.16+ の Go 版は asdf.sh を提供しないため手動で追加）
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+
+# ローカルバイナリ（uv が置く python のリンクなど。いちばん優先）
 export PATH="$HOME/.local/bin:$PATH"
 
 # ============================================================

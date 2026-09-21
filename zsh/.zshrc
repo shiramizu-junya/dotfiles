@@ -113,6 +113,7 @@ setopt HIST_IGNORE_ALL_DUPS # 古い重複を削除
 setopt HIST_REDUCE_BLANKS   # 余分な空白を除去
 setopt SHARE_HISTORY        # ターミナル間で履歴共有
 setopt HIST_IGNORE_SPACE    # スペース始まりは記録しない（秘密コマンド用）
+setopt EXTENDED_HISTORY     # 実行時刻と所要時間も記録（history -i / -E で表示）
 
 # ============================================================
 # 5. 環境変数
@@ -152,6 +153,14 @@ export FZF_DEFAULT_OPTS='
 if type rg &>/dev/null; then
   export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+fi
+
+# fzf公式のキーバインドと補完を有効化
+#   Ctrl+R … 履歴をfzfで検索（素のzsh検索を置き換える）
+#   Ctrl+T … ファイルをfzfで選んでコマンドラインに挿入（上のFZF_CTRL_T_COMMANDが効く）
+#   Alt+C  … ディレクトリをfzfで選んでcd
+if type fzf &>/dev/null; then
+  source <(fzf --zsh)
 fi
 
 # ============================================================

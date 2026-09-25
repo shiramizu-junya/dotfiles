@@ -25,10 +25,11 @@
 
 ## 構成
 
-- パッケージ（stow対象）= `ROOT` 直下のディレクトリを自動検出（`EXCLUDE = iterm2 hooks` を除く）。
+- パッケージ（stow対象）= `ROOT` 直下のディレクトリを自動検出（`EXCLUDE = iterm2 hooks claude` を除く）。
   - 新しい設定を管理するには、パッケージ用フォルダを作ってファイルを置き `make link` するだけ。
 - **iterm2**: stow 対象外。iTerm2 純正のフォルダ同期で管理（`iterm2/README.md`）。
-- アプリ/ツール: `Brewfile`（共通）/ `Brewfile.personal`（個人Macのみ）。
+- アプリ/ツール: `Brewfile`（共通）/ `Brewfile.personal`（個人Macのみ）/ `Brewfile.work`（職場Macのみ）。
+- **claude**: stow 対象外。MCP/プラグインはスクリプト適用、カスタムコマンドは `make claude-commands` で symlink（`claude/README.md`）。
 - 環境差分: `.local` 方式（`~/.gitconfig.local` `~/.zshrc.local` `~/.zshenv`）。
 
 ## コミット規約

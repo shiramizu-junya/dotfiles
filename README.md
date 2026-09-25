@@ -8,7 +8,7 @@
 - **共通設定は Git 管理**、**マシン固有・秘密情報は `.local` ファイルで分離**（各Macで手動配置）。
 - リンク管理は **GNU Stow**（1ツール = 1パッケージ）。`make link` で安全に張る。
 - **秘密情報は絶対にコミットしない**（`.gitignore` + gitleaks pre-commit フック + CI(GitHub Actions) の三重ガード）。
-- アプリ/ツールは **Brewfile**（共通）と **Brewfile.personal**（個人）で管理。
+- アプリ/ツールは **Brewfile**（共通）/ **Brewfile.personal**（個人）/ **Brewfile.work**（職場）で管理。
 
 ## 2. 前提（最初の1回だけ手動）
 
@@ -32,10 +32,14 @@ cp zsh/.zshrc.local.example    ~/.zshrc.local       # 任意（プロキシ等�
 cp git/.gitconfig.local.example ~/.gitconfig.local  # 氏名・メールを記入
 
 make mcp               # Claude Code の MCPサーバを登録（要 ~/.zshenv）
+make claude-commands   # Claude Code のカスタムコマンドをリンク
 brew autoupdate start --upgrade   # brew の自動更新を有効化（domt4/autoupdate tap）
 
 # 個人Macのみ
 make brew-personal
+
+# 職場Macのみ
+make brew-work
 
 # iTerm2 の設定フォルダを ~/dotfiles/iterm2 に向ける（iterm2/README.md 参照）
 ```
@@ -57,11 +61,11 @@ make brew-personal
 
 ### stow 対象外（個別管理）
 - **iterm2**: iTerm2 純正のフォルダ同期で管理（`iterm2/README.md`）
-- **claude**: Claude Code の MCP サーバ定義（`claude/README.md`）。秘密は `.zshenv` の環境変数を参照
+- **claude**: Claude Code の MCP サーバ定義・プラグイン・カスタムコマンド（`claude/README.md`）。秘密は `.zshenv` の環境変数を参照
 - **hooks**: gitleaks pre-commit フック
 
 ### アプリ/ツール
-- `Brewfile`（共通・全Mac）/ `Brewfile.personal`（個人Macのみ）
+- `Brewfile`（共通・全Mac）/ `Brewfile.personal`（個人Macのみ）/ `Brewfile.work`（職場Macのみ）
 - Mac App Store アプリは `mas` 経由（`Brewfile.personal` にアプリIDを記入）
 
 ## 5. 運用方法（シナリオ別）
@@ -76,7 +80,7 @@ cd ~/dotfiles && git add -A && git commit -m "feat: ..." && git push
 ### B. 新しいツール/アプリを brew で入れた → 管理に追加
 ```bash
 brew install <tool>                       # または brew install --cask <app>
-# 共通なら Brewfile、個人なら Brewfile.personal に1行追記
+# 共通なら Brewfile、個人なら Brewfile.personal、職場なら Brewfile.work に1行追記
 cd ~/dotfiles && git add -A && git commit -m "build: add <tool>" && git push
 ```
 
@@ -127,9 +131,10 @@ make brew-cleanup   # （任意・破壊的）Brewfileに無いアプリを削�
 | `make dry-run` | 何が起きるか確認（変更しない） |
 | `make doctor` | 健全性チェック（ツール有無・リンク切れ・Brewfile差分） |
 | `make link` | backup→stowリンク→gitleaksフック設置 |
-| `make brew` / `make brew-personal` | Brewfile / Brewfile.personal を導入 |
+| `make brew` / `make brew-personal` / `make brew-work` | Brewfile / Brewfile.personal / Brewfile.work を導入 |
 | `make runtime` | asdf install |
 | `make plugins` | vim-plug / TPM プラグイン取得 |
+| `make mcp` / `make claude-plugins` / `make claude-commands` | Claude Code の MCP / プラグイン / カスタムコマンド |
 | `make uninstall` | stowリンクを全削除 |
 | `make restore` | 最新backupから復元 |
 | `make prune` | リンク切れを掃除 |
@@ -166,8 +171,9 @@ asdf は `latest` を自動追従しないため、明示的に叩いて `.tool-
 | ファイル | 用途 |
 |---|---|
 | `~/.gitconfig.local` | git の氏名・メール（職場では会社メール） |
-| `~/.zshrc.local` | 社内プロキシ・職場専用 PATH/エイリアス等 |
+| `~/.zshrc.local` | 社内プロキシ・職場専用 PATH/エイリアス等（例: `AWS_PROFILE`、Android SDK、`GUI_EDITOR=code`） |
 | `~/.zshenv` | 各種 API トークン（秘密） |
+| `~/.claude/settings.json` | Claude Code 設定。雛形 `claude/settings.example.json` をコピーし、職場では Bedrock/AWS を追記 |
 
 各 `.example` をコピーして作成する。
 

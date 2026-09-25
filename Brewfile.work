@@ -21,6 +21,8 @@ cask "miro"
 # --- ネットワーク ---
 cask "openvpn-connect"           # 社内 VPN
 
+# --- Mac App Store（mas は共通 Brewfile で導入）---
+mas "TestFlight", id: 899247664  # iOS/macOS アプリのベータ配布
+
 # --- brew では入らないもの（記録のみ）---
-# TestFlight   … Mac App Store（mas 導入後: mas "TestFlight", id: 899247664）
 # RoomAnd Dev  … 社内配布アプリ。配布元から手動インストール

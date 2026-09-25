@@ -3,7 +3,7 @@
 # 会社Macには入れない、プライベート用アプリ
 # ============================================================
 
-brew "mas"                       # Mac App Store CLI（App Storeアプリの自動install用）
+# mas 本体は共通 Brewfile に移動した
 
 # --- GUI（cask）---
 cask "discord"

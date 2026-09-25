@@ -59,7 +59,11 @@ cask "deepl"
 cask "raycast"
 cask "appcleaner"
 cask "imageoptim"
-cask "pomatez"                   # ポモドーロタイマー（無効化された flow の代替）
+
+# --- Mac App Store（mas 経由。App Store にサインインしておくこと）---
+# ※ brew の cask "flow" は getflow.com のタスク管理ソフトで別物。ポモドーロの Flow は App Store 専用
+brew "mas"                       # Mac App Store CLI
+mas "Flow", id: 1423210932       # ポモドーロタイマー（Yugen GmbH）
 
 # --- フォント（starshipのアイコン表示に必要）---
 cask "font-hack-nerd-font"

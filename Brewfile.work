@@ -1,0 +1,26 @@
+# ============================================================
+# Brewfile.work（職場Macのみ）— `make brew-work` で導入
+# 会社業務でのみ使うツール/アプリ。個人Macには入れない
+# ============================================================
+
+# --- AWS（公式 pkg 版から brew に統一。設定は ~/.aws にあり brew は触らない）---
+brew "awscli"                    # AWS CLI v2（`aws sso login --profile iimon` 等）
+cask "session-manager-plugin"    # SSM セッション接続（aws ssm start-session）
+brew "ecspresso"                 # ECS デプロイツール
+
+# --- 開発 ---
+brew "pre-commit"                # bukkaku-docker / bukkaku-terraform の pre-commit フック
+cask "android-studio"            # React Native / Expo の Android ビルド
+cask "zulu@17"                   # Android Studio 用 JDK 17
+cask "pycharm"                   # Python IDE（低頻度）
+
+# --- コミュニケーション / ブラウザ ---
+cask "google-chrome"
+cask "miro"
+
+# --- ネットワーク ---
+cask "openvpn-connect"           # 社内 VPN
+
+# --- brew では入らないもの（記録のみ）---
+# TestFlight   … Mac App Store（mas 導入後: mas "TestFlight", id: 899247664）
+# RoomAnd Dev  … 社内配布アプリ。配布元から手動インストール

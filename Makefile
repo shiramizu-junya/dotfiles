@@ -12,7 +12,7 @@ STOW       := stow --no-folding -d $(ROOT) -t $(HOME)
 TRUST_TAPS := supabase/tap domt4/autoupdate
 
 .DEFAULT_GOAL := help
-.PHONY: help doctor dry-run backup link hooks brew brew-personal runtime plugins mcp claude-plugins bootstrap uninstall restore prune brew-cleanup
+.PHONY: help doctor dry-run backup link hooks brew brew-personal brew-work runtime plugins mcp claude-plugins claude-commands bootstrap uninstall restore prune brew-cleanup
 
 help:
 	@echo "dotfiles Makefile — 主なコマンド"
@@ -24,10 +24,12 @@ help:
 	@echo "  make brew          Brewfile(共通)を導入（tap信頼も自動）"
 	@echo "  make runtime-latest 言語を最新安定版に上げて .tool-versions を更新"
 	@echo "  make brew-personal Brewfile.personal(個人)を導入"
+	@echo "  make brew-work     Brewfile.work(職場)を導入"
 	@echo "  make runtime       asdf install（言語ランタイム）"
 	@echo "  make plugins       vim-plug / TPM プラグイン取得"
 	@echo "  make mcp           Claude Code の MCPサーバを登録"
 	@echo "  make claude-plugins Claude Code のプラグインを導入（要 make brew）"
+	@echo "  make claude-commands Claude Code のカスタムコマンドを ~/.claude/commands にリンク"
 	@echo "  make uninstall     stowリンクを全削除"
 	@echo "  make restore       最新backupから実ファイルを復元"
 	@echo "  make prune         リンク切れ(幽霊リンク)を掃除"
@@ -67,6 +69,9 @@ brew:
 brew-personal:
 	cd $(ROOT) && brew bundle --file=Brewfile.personal
 
+brew-work:
+	cd $(ROOT) && brew bundle --file=Brewfile.work
+
 runtime:
 	@command -v asdf >/dev/null 2>&1 || { echo "asdf が無い。先に make brew"; exit 1; }
 	@asdf plugin add nodejs 2>/dev/null || true
@@ -102,6 +107,16 @@ claude-plugins:
 	@command -v claude >/dev/null 2>&1 || { echo "claude CLI が無い。Claude Code を先に導入"; exit 1; }
 	bash $(ROOT)/claude/plugin-setup.sh
 
+# カスタムコマンド(.md)は Claude Code が書き換えないため symlink で共有できる。
+# ~/.claude 自体は会話ログ等が同居するので丸ごとはリンクしない（claude/README.md 参照）。
+claude-commands:
+	@mkdir -p $(HOME)/.claude/commands
+	@for f in $(ROOT)/claude/commands/*.md; do \
+	  ln -sfn "$$f" "$(HOME)/.claude/commands/$$(basename "$$f")"; \
+	  echo "  link: ~/.claude/commands/$$(basename "$$f")"; \
+	done
+	@echo "✅ claude-commands 完了"
+
 bootstrap:
 	$(MAKE) brew
 	$(MAKE) link
@@ -113,9 +128,10 @@ bootstrap:
 	@echo "  2) cp git/.gitconfig.local.example ~/.gitconfig.local  # メールを記入"
 	@echo "  3) make mcp                                  # MCPサーバ登録（要 ~/.zshenv）"
 	@echo "  4) make claude-plugins                       # Claude Code のプラグイン導入"
+	@echo "     make claude-commands                      # Claude Code のカスタムコマンド"
 	@echo "  5) brew autoupdate start --upgrade           # brew自動更新を有効化"
 	@echo "  6) iTerm2 の設定フォルダを $(ROOT)/iterm2 に向ける（iterm2/README.md参照）"
-	@echo "  7) 個人Macなら make brew-personal"
+	@echo "  7) 個人Macなら make brew-personal / 職場Macなら make brew-work"
 
 uninstall:
 	$(STOW) -D -v $(PACKAGES)

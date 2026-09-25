@@ -30,6 +30,7 @@ brew "zsh-autosuggestions"
 brew "zsh-completions"
 brew "zsh-syntax-highlighting"
 brew "act"                       # GitHub Actions ローカル実行
+brew "ffmpeg"                    # 動画変換（画面収録 .mov → .mp4 圧縮など）
 brew "git-town"                  # gitブランチ運用補助
 # mysql はホスト直インストールを廃止し、各プロジェクトで Docker のコンテナとして起動する
 brew "uv"                        # Python パッケージ/バージョン管理

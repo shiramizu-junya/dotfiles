@@ -8,6 +8,8 @@
 |---|---|---|
 | MCP サーバ | `mcp-servers.json` | `make mcp` |
 | プラグイン | `plugins.json` | `make claude-plugins` |
+| カスタムコマンド | `commands/*.md` | `make claude-commands`（symlink） |
+| settings.json | `settings.example.json`（雛形） | 手動コピー |
 
 ---
 
@@ -24,18 +26,20 @@ Claude Code の MCP サーバ定義を管理する。
 
 | サーバ | 種別 | 必要な秘密（環境変数 / ファイル） | 用途 |
 |---|---|---|---|
-| notion | stdio | `NOTION_ACCESS_TOKEN` | Notion 操作 |
-| supabase | stdio | `SUPABASE_ACCESS_TOKEN` | Supabase 操作 |
-| context7 | http | `CONTEXT7_API_KEY` | ライブラリ最新ドキュメント取得 |
-| dbhub | stdio | `~/.config/dbhub/dbhub.toml`（手動配置・秘密） | DB 接続 |
+| notion | http | なし（公式ホスト版。初回に OAuth でブラウザ認証） | Notion 操作 |
+| context7 | stdio | なし | ライブラリ最新ドキュメント取得 |
+| supabase | stdio | `SUPABASE_ACCESS_TOKEN` | Supabase 操作（個人開発用） |
 | playwright | stdio | なし | ブラウザ自動化 |
 | chrome-devtools | stdio | なし | Chrome DevTools 連携 |
+| desktop-commander | stdio | なし | ファイル/プロセス操作 |
+| shadcn | stdio | なし | shadcn/ui コンポーネント検索 |
 | drawio | stdio | なし | 作図 |
+| mysql | stdio | `~/.config/dbhub/dbhub.toml`（手動配置・秘密） | DB 接続（dbhub） |
 
 ## セットアップ（新Mac）
 
 1. `~/.zshenv` に必要なトークンを設定する（`zsh/.zshenv.example` 参照）
-2. `dbhub` を使う場合は `~/.config/dbhub/dbhub.toml` を用意（接続情報＝秘密のため手動）
+2. `mysql`(dbhub) を使う場合は `~/.config/dbhub/dbhub.toml` を用意（接続情報＝秘密のため手動）
 3. 登録する:
    ```bash
    make mcp          # または bash claude/mcp-setup.sh
@@ -89,3 +93,35 @@ make claude-plugins  # プラグイン導入
 
 `plugins.json` を編集して `make claude-plugins` を実行する。
 バイナリを要するプラグインなら `requires` に書き、`Brewfile` にも追加する。
+
+---
+
+## カスタムコマンド
+
+`commands/*.md` を `~/.claude/commands/` に symlink する（`make claude-commands`）。
+コマンドの `.md` は Claude Code が書き換えないため、symlink で両Macに共有できる。
+
+| コマンド | 用途 |
+|---|---|
+| `/claude-code-review` | チェックリストに基づくコードレビュー |
+| `/claude-code-review-respond` | PR のレビューコメントへの対応判断と修正 |
+| `/claude-code-pr-annotate` | レビュー依頼前に PR へ補足コメントが必要な箇所を特定 |
+| `/claude-code-security-review` | OWASP Top 10 (2021) に準拠したセキュリティレビュー |
+
+---
+
+## settings.json
+
+`~/.claude/settings.json` は Claude Code 自身が書き換えるため symlink せず、雛形 `settings.example.json` を
+コピーして各 Mac で編集する。
+
+```bash
+cp ~/dotfiles/claude/settings.example.json ~/.claude/settings.json   # 新Macのみ
+```
+
+職場Mac では Bedrock 経由で使うため、以下を追記する（値は環境に合わせる）:
+
+```json
+"awsAuthRefresh": "aws sso login --profile iimon",
+"env": { "CLAUDE_CODE_USE_BEDROCK": "1", "AWS_PROFILE": "iimon", "AWS_REGION": "..." }
+```

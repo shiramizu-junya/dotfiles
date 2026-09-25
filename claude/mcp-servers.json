@@ -1,13 +1,14 @@
 {
   "notion": {
+    "type": "http",
+    "url": "https://mcp.notion.com/mcp"
+  },
+  "context7": {
     "command": "npx",
     "args": [
       "-y",
-      "@notionhq/notion-mcp-server"
-    ],
-    "env": {
-      "OPENAPI_MCP_HEADERS": "{\"Authorization\":\"Bearer ${NOTION_ACCESS_TOKEN}\",\"Notion-Version\":\"2022-06-28\"}"
-    }
+      "@upstash/context7-mcp@latest"
+    ]
   },
   "supabase": {
     "command": "npx",
@@ -24,13 +25,6 @@
       "@playwright/mcp@latest"
     ]
   },
-  "context7": {
-    "type": "http",
-    "url": "https://mcp.context7.com/mcp",
-    "headers": {
-      "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
-    }
-  },
   "chrome-devtools": {
     "type": "stdio",
     "command": "npx",
@@ -41,6 +35,22 @@
     ],
     "env": {}
   },
+  "desktop-commander": {
+    "type": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "@wonderwhy-er/desktop-commander@latest"
+    ],
+    "env": {}
+  },
+  "shadcn": {
+    "command": "npx",
+    "args": [
+      "shadcn@latest",
+      "mcp"
+    ]
+  },
   "drawio": {
     "command": "npx",
     "args": [
@@ -48,7 +58,7 @@
       "@drawio/mcp"
     ]
   },
-  "dbhub": {
+  "mysql": {
     "command": "npx",
     "args": [
       "-y",

@@ -1,0 +1,18 @@
+{
+  "_comment": "~/.claude/settings.json の雛形。cp して各Macで編集する（Claude Code 自身が書き換えるため symlink しない）。会社Macでは Bedrock/AWS の設定を追記する（claude/README.md 参照）",
+  "model": "fable[1m]",
+  "language": "japanese",
+  "tui": "fullscreen",
+  "agentPushNotifEnabled": true,
+  "permissions": {
+    "allow": [
+      "Bash(npm run:*)",
+      "Bash(git commit:*)"
+    ],
+    "deny": [
+      "Read(.env)",
+      "Read(.env.*)",
+      "Read(./secrets/**)"
+    ]
+  }
+}

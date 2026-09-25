@@ -7,6 +7,12 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+    // 差分は左右分割で表示
+    "diff_view_style": "split",
+    // スクロール時に現在のスコープ（関数名など）を上部に固定表示
+    "sticky_scroll": {
+        "enabled": true,
+    },
     "cli_default_open_behavior": "existing_window",
     "project_panel": {
         "dock": "left",

@@ -47,8 +47,8 @@
         "use_system_clipboard": "on_yank",
         // f/t 検索を大文字小文字あいまいに(小文字入力なら両方ヒット)
         "use_smartcase_find": true,
-        // ノーマル=相対行 / インサート=絶対行 に自動で切り替え
-        "toggle_relative_line_numbers": true,
+        // モードによる相対/絶対の自動切り替えは無効(常に絶対行番号)
+        "toggle_relative_line_numbers": false,
     },
     "terminal": {
         "font_size": 16.0,
@@ -74,7 +74,7 @@
         "git_status": true,
         "file_icons": true,
     },
-    "relative_line_numbers": "enabled",
+    "relative_line_numbers": "disabled",
     "gutter": {
         "line_numbers": true,
     },

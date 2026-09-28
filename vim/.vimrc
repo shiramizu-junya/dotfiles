@@ -66,6 +66,7 @@ set hidden                      " 保存せずに別ファイルを開ける
 
 " --- 表示設定 ---
 set number                      " 行番号を表示
+set norelativenumber            " 相対行番号は使わない(常に絶対行番号)
 set cursorline                  " カーソル行をハイライト
 set showmatch                   " 対応する括弧を表示
 set matchtime=1                 " 括弧のハイライト時間

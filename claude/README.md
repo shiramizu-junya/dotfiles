@@ -119,6 +119,9 @@ make claude-plugins  # プラグイン導入
 cp ~/dotfiles/claude/settings.example.json ~/.claude/settings.json   # 新Macのみ
 ```
 
+`hooks` は tmux の入力待ち通知（`tmux/.config/tmux/claude-tmux.sh`）を呼ぶ。既存の `~/.claude/settings.json` には
+`hooks` の部分だけを手でマージする。
+
 職場Mac では Bedrock 経由で使うため、以下を追記する（値は環境に合わせる）:
 
 ```json

@@ -25,7 +25,8 @@ brew "tldr"                      # 簡易man
 brew "git-delta"                 # git diff の見やすい表示
 brew "lazygit"                   # git の TUI（対話的ステージ/rebase/cherry-pick）
 brew "tmux"
-brew "neovim"                    # エディタ（~/.vimrc を共有して読み込む）
+brew "neovim"                    # エディタ（共通設定は ~/.vim/common.vim を Vim と共有）
+brew "tree-sitter-cli"           # nvim-treesitter がパーサーのビルドに使う
 brew "starship"                  # プロンプト
 brew "zsh-autosuggestions"
 brew "zsh-completions"

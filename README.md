@@ -52,7 +52,8 @@ make brew-work
 | zsh | `.zshrc` `.zprofile`（`.zshenv` は秘密のため除外） |
 | git | `.gitconfig` `.config/git/ignore`（グローバル無視はXDGの `~/.config/git/ignore` に一本化。氏名/メールは `.local` に分離） |
 | tmux | `.tmux.conf` |
-| vim | `.vimrc` |
+| vim | `.vimrc`（Vim 専用）`.vim/common.vim`（Vim / Neovim 共通の基本設定・キーマップ） |
+| nvim | `.config/nvim/init.lua`（Neovim 専用）`lua/plugins/*.lua`（lazy.nvim のプラグイン）`lazy-lock.json` |
 | starship | `.config/starship.toml` |
 | gh | `.config/gh/config.yml`（`hosts.yml` は除外） |
 | ripgrep | `.ripgreprc` |
@@ -114,6 +115,20 @@ git add -A && git commit -m "chore: drop <pkg>" && git push
 ### G. ツールを別物に置き換え
 → F（旧を消す）+ B/C（新を足す）の組み合わせ。
 
+### H. Vim / Neovim の設定を変えたい
+どちらに効かせたいかで書く場所を選ぶ。
+
+| 変えたいもの | 書く場所 |
+|---|---|
+| 両方に効く基本設定・キーマップ・自動コマンド | `vim/.vim/common.vim` |
+| Vim だけの設定・プラグイン（vim-plug） | `vim/.vimrc` |
+| Neovim だけの設定 | `nvim/.config/nvim/init.lua` |
+| Neovim のプラグイン（lazy.nvim） | `nvim/.config/nvim/lua/plugins/*.lua` |
+
+- 両方で使うプラグインは、`.vimrc` と `lua/plugins/` の両方に書く（設定は `common.vim` に1回だけ）
+- `lua/plugins/` に**新しいファイルを足したときは `make link`** が必要（stow は `--no-folding` のためファイル単位でリンクする）
+- Neovim のプラグイン更新は `:Lazy update`。`lazy-lock.json` が dotfiles に書き出されるので commit する
+
 ### 削除を他Macにも安全に反映
 ```bash
 git pull
@@ -133,7 +148,7 @@ make brew-cleanup   # （任意・破壊的）Brewfileに無いアプリを削�
 | `make link` | backup→stowリンク→gitleaksフック設置 |
 | `make brew` / `make brew-personal` / `make brew-work` | Brewfile / Brewfile.personal / Brewfile.work を導入 |
 | `make runtime` | asdf install |
-| `make plugins` | vim-plug / TPM プラグイン取得 |
+| `make plugins` | vim-plug / lazy.nvim（`lazy-lock.json` の版に揃える）/ TPM プラグイン取得 |
 | `make mcp` / `make claude-plugins` / `make claude-commands` | Claude Code の MCP / プラグイン / カスタムコマンド |
 | `make uninstall` | stowリンクを全削除 |
 | `make restore` | 最新backupから復元 |

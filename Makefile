@@ -26,7 +26,7 @@ help:
 	@echo "  make brew-personal Brewfile.personal(個人)を導入"
 	@echo "  make brew-work     Brewfile.work(職場)を導入"
 	@echo "  make runtime       asdf install（言語ランタイム）"
-	@echo "  make plugins       vim-plug / TPM プラグイン取得"
+	@echo "  make plugins       vim-plug / lazy.nvim / TPM プラグイン取得"
 	@echo "  make mcp           Claude Code の MCPサーバを登録"
 	@echo "  make claude-plugins Claude Code のプラグインを導入（要 make brew）"
 	@echo "  make claude-commands Claude Code のカスタムコマンドを ~/.claude/commands にリンク"
@@ -95,6 +95,7 @@ runtime-latest:
 plugins:
 	@[ -f $(HOME)/.vim/autoload/plug.vim ] || curl -fLo $(HOME)/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 	@vim +PlugInstall +qall || true
+	@command -v nvim >/dev/null 2>&1 && nvim --headless "+Lazy! restore" +qa || true
 	@[ -d $(HOME)/.config/zsh/fzf-tab ] || git clone --depth 1 https://github.com/Aloxaf/fzf-tab $(HOME)/.config/zsh/fzf-tab
 	@[ -d $(HOME)/.tmux/plugins/tpm ] || git clone https://github.com/tmux-plugins/tpm $(HOME)/.tmux/plugins/tpm
 	@$(HOME)/.tmux/plugins/tpm/bin/install_plugins 2>/dev/null || true

@@ -46,7 +46,7 @@ jump)
   ;;
 count)
   n=$(tmux list-windows -a -F '#{@claude_waiting}' | grep -c '^1$')
-  [ "$n" -gt 0 ] && printf '#[fg=colour196,bold]● Claude待ち %s #[default]' "$n"
+  [ "$n" -gt 0 ] && printf '#[fg=#ff5555,bold]● Claude待ち %s #[default]' "$n"
   ;;
 esac
 exit 0

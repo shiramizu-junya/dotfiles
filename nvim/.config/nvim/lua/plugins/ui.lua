@@ -35,8 +35,17 @@ return {
     },
   },
 
-  -- --- カラースキーム（common.vim で切り替えたときに使う）---
+  -- --- カラースキーム（VSCode・Zed と同じ Dracula）---
+  -- 【説明】公式版。treesitter と LSP の色分け、lightline の配色にも対応している
+  -- 起動時に他のプラグインより先に読み込んで色を設定する（Vim は common.vim で設定）
+  {
+    'dracula/vim',
+    name = 'dracula',
+    lazy = false,
+    priority = 1000,
+    config = function() vim.cmd.colorscheme('dracula') end,
+  },
+  -- 他の候補（:colorscheme gruvbox などで切り替えられる）
   { 'morhetz/gruvbox', lazy = true },
-  { 'dracula/vim', name = 'dracula', lazy = true },
   { 'joshdick/onedark.vim', lazy = true },
 }

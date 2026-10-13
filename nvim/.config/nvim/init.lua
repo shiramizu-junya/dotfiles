@@ -76,7 +76,7 @@ local config_dir = vim.fn.fnamemodify(vim.fn.resolve(vim.fn.stdpath('config') ..
 require('lazy').setup({
   spec = { { import = 'plugins' } },
   lockfile = config_dir .. '/lazy-lock.json',
-  install = { colorscheme = { 'sorbet' } },
+  install = { colorscheme = { 'dracula', 'sorbet' } },
   rocks = { enabled = false }, -- luarocks が必要なプラグインは使っていない
   change_detection = { notify = false },
 })

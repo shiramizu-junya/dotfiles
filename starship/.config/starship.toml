@@ -13,52 +13,53 @@ command_timeout = 1000   # java/ruby 等の遅いバージョン取得を取り�
 add_newline = true
 
 format = """
-[](fg:color_orange)\
+[](fg:color_purple)\
 $directory\
-[](fg:color_orange bg:color_green)\
+[](fg:color_purple bg:color_pink)\
 $git_branch\
 $git_status\
 $git_state\
-[](fg:color_green bg:color_teal)\
+[](fg:color_pink bg:color_cyan)\
 $nodejs\
 $python\
 $rust\
 $golang\
 $java\
 $ruby\
-[](fg:color_teal bg:color_brown)\
+[](fg:color_cyan bg:color_comment)\
 $docker_context\
 $aws\
 $gcloud\
-[](fg:color_brown bg:color_gray)\
+[](fg:color_comment bg:color_current)\
 $cmd_duration\
 $jobs\
-[](fg:color_gray)\
+[](fg:color_current)\
 $fill\
 $time\
 $line_break$character"""
 
-palette = "powerline"
+# 配色は Dracula（Vim・Neovim・tmux・iTerm と同じ）
+palette = "dracula"
 
-[palettes.powerline]
-dark   = "#1a1a1a"
-light  = "#f0f0f0"
-color_orange = "#e07a3f"
-color_green  = "#7fb069"
-color_teal   = "#5cab9d"
-color_brown  = "#7a6a55"
-color_gray   = "#4a4a52"
+[palettes.dracula]
+dark          = "#282a36"
+light         = "#f8f8f2"
+color_purple  = "#bd93f9"
+color_pink    = "#ff79c6"
+color_cyan    = "#8be9fd"
+color_comment = "#6272a4"
+color_current = "#44475a"
 
 # ------------------------------------------------------------
 # ディレクトリ
 # ------------------------------------------------------------
 [directory]
-style = "bg:color_orange fg:dark"
+style = "bg:color_purple fg:dark"
 truncation_length = 3
 truncate_to_repo = true
 truncation_symbol = "…/"
 read_only = "  "
-read_only_style = "bg:color_orange fg:red"
+read_only_style = "bg:color_purple fg:#ff5555"
 format = "[ 󰉋 $path ]($style)[$read_only]($read_only_style)"
 
 [directory.substitutions]
@@ -71,11 +72,11 @@ format = "[ 󰉋 $path ]($style)[$read_only]($read_only_style)"
 # ------------------------------------------------------------
 [git_branch]
 symbol = ""
-style = "bg:color_green fg:dark"
+style = "bg:color_pink fg:dark"
 format = "[ $symbol $branch ]($style)"
 
 [git_status]
-style = "bg:color_green fg:dark"
+style = "bg:color_pink fg:dark"
 format = '[$all_status$ahead_behind]($style)'
 conflicted = "= "
 ahead = "⇡${count} "
@@ -90,7 +91,7 @@ renamed = "» "
 deleted = "✘ "
 
 [git_state]
-style = "bg:color_green fg:dark"
+style = "bg:color_pink fg:dark"
 format = "[ $state( $progress_current/$progress_total) ]($style)"
 rebase = "REBASE"
 merge = "MERGE"
@@ -105,32 +106,32 @@ am_or_rebase = "AM/REBASE"
 # ------------------------------------------------------------
 [nodejs]
 symbol = ""
-style = "bg:color_teal fg:dark"
+style = "bg:color_cyan fg:dark"
 format = "[ $symbol $version ]($style)"
 
 [python]
 symbol = ""
-style = "bg:color_teal fg:dark"
+style = "bg:color_cyan fg:dark"
 format = '[ $symbol $version( $virtualenv) ]($style)'
 
 [rust]
 symbol = ""
-style = "bg:color_teal fg:dark"
+style = "bg:color_cyan fg:dark"
 format = "[ $symbol $version ]($style)"
 
 [golang]
 symbol = ""
-style = "bg:color_teal fg:dark"
+style = "bg:color_cyan fg:dark"
 format = "[ $symbol $version ]($style)"
 
 [java]
 symbol = ""
-style = "bg:color_teal fg:dark"
+style = "bg:color_cyan fg:dark"
 format = "[ $symbol $version ]($style)"
 
 [ruby]
 symbol = ""
-style = "bg:color_teal fg:dark"
+style = "bg:color_cyan fg:dark"
 format = "[ $symbol $version ]($style)"
 
 # ------------------------------------------------------------
@@ -138,12 +139,12 @@ format = "[ $symbol $version ]($style)"
 # ------------------------------------------------------------
 [docker_context]
 symbol = ""
-style = "bg:color_brown fg:light"
+style = "bg:color_comment fg:light"
 format = "[ $symbol $context ]($style)"
 
 [aws]
 symbol = ""
-style = "bg:color_brown fg:light"
+style = "bg:color_comment fg:light"
 format = '[ $symbol $profile(\($region\)) ]($style)'
 
 [aws.region_aliases]
@@ -151,7 +152,7 @@ ap-northeast-1 = "jp"
 
 [gcloud]
 symbol = ""
-style = "bg:color_brown fg:light"
+style = "bg:color_comment fg:light"
 format = '[ $symbol $account ]($style)'
 
 # ------------------------------------------------------------
@@ -159,11 +160,11 @@ format = '[ $symbol $account ]($style)'
 # ------------------------------------------------------------
 [cmd_duration]
 min_time = 500
-style = "bg:color_gray fg:light"
+style = "bg:color_current fg:light"
 format = "[ 󰔛 $duration ]($style)"
 
 [jobs]
-style = "bg:color_gray fg:light"
+style = "bg:color_current fg:light"
 format = "[  $number ]($style)"
 threshold = 1
 number_threshold = 1
@@ -173,12 +174,12 @@ number_threshold = 1
 # ------------------------------------------------------------
 [fill]
 symbol = "·"
-style = "fg:color_gray"
+style = "fg:color_comment"
 
 [time]
 disabled = false
-style = "fg:color_gray"
-format = "[  $time ](fg:color_gray)"
+style = "fg:color_comment"
+format = "[  $time ](fg:color_comment)"
 time_format = "%H:%M"
 
 # ------------------------------------------------------------

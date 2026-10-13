@@ -40,7 +40,7 @@ syntax on                       " シンタックスハイライト有効化
 set background=dark             " ダークモード
 
 " --- ポップアップ（K のドキュメント・補完の候補）の色 ---
-" 【説明】sorbet はポップアップが明るい灰色の背景に黒文字で見づらいため、エディタの背景に近い暗い色にする
+" 【説明】dracula を使えないときの予備の sorbet は、ポップアップが明るい灰色の背景に黒文字で見づらいため、エディタの背景に近い暗い色にする
 " カラースキームを読み込むたびに上書きされるため、ColorScheme のタイミングで設定し直す（sorbet のときだけ）
 function! s:sorbet_popup() abort
   hi Pmenu      guifg=#dadada guibg=#22252f ctermfg=253 ctermbg=235
@@ -59,14 +59,16 @@ augroup sorbet_popup
   autocmd ColorScheme sorbet call s:sorbet_popup()
 augroup END
 
-" カラースキーム（お好みで変更してください）
-colorscheme sorbet
-" colorscheme gruvbox
-" colorscheme dracula
-" colorscheme onedark
-
-" コメントの色
-hi Comment ctermfg=3
+" --- カラースキーム（VSCode・Zed と同じ Dracula）---
+" 【注意】Neovim はこの時点でプラグインがまだ読み込まれていないため、lua/plugins/ui.lua で設定する
+" 他の候補: gruvbox / onedark（プラグイン）、sorbet / habamax（標準）
+if !has('nvim')
+  try
+    colorscheme dracula
+  catch
+    colorscheme sorbet          " プラグインを入れる前（初回の起動）用
+  endtry
+endif
 
 " --- インデント設定 ---
 set autoindent                  " 自動インデント
@@ -190,7 +192,7 @@ command! -bang -nargs=? -complete=dir Files
 
 " --- Lightline（ステータスライン）---
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
+      \ 'colorscheme': 'dracula',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]

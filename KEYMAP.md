@@ -1,7 +1,8 @@
-# KEYMAP — vim と Zed の対応表
+# KEYMAP — vim と Zed の対応表 / Neovim のキー
 
 `~/.vimrc`（ターミナルの vim）と `zed/.config/zed/keymap.json`（Zed の vim モード）の対応。
 **片方を変えたら、この表を見てもう片方も直す。**
+Neovim だけのキー（LSP・補完・検索など）とテクニックは [5. Neovim のキーとテクニック](#5-neovim-のキーとテクニック)。
 
 ## なぜ2つ必要なのか
 
@@ -22,7 +23,7 @@ Zed による再実装なので、`inoremap` / `set` / プラグインという 
 
 ## 1. キーマップ
 
-`.vimrc` は `~/dotfiles/vim/.vimrc`、Zed は `~/dotfiles/zed/.config/zed/keymap.json`。
+`.vimrc` の列は Vim / Neovim 共通の `~/dotfiles/vim/.vim/common.vim`（Vim 専用は `~/dotfiles/vim/.vimrc`）、Zed は `~/dotfiles/zed/.config/zed/keymap.json`。
 
 ### モード遷移・移動
 
@@ -109,3 +110,108 @@ Zed の keymap.json でハマりやすい点。
 
 > Zed 内蔵ターミナルは `"EDITOR": "zed --wait"` を設定しているため、
 > **そこで `git commit` すると Neovim ではなく Zed が開く**。外部ターミナル（iTerm2）では `$TERM_EDITOR`（既定は nvim）が開く。
+
+## 5. Neovim のキーとテクニック
+
+`<Space>` を押して待つと which-key が続きのキーを一覧表示する。迷ったらまずこれ。
+最初は **`K`、`gd` → `Ctrl-o`、`grr`、`grn`、`<Space>f`、`<Space>/`** の6つで十分。
+
+設定の場所: LSP は `nvim/.config/nvim/lua/plugins/lsp.lua`、補完は `completion.lua`、検索は `files.lua`、
+共通キー（`<Space>j` など）は `vim/.vim/common.vim`。
+
+### コードを読む（LSP）
+
+| キー | 動作 |
+|---|---|
+| `K` | ドキュメント表示（もう一度押すとポップアップに入ってスクロール・コピーできる） |
+| `gd` | 定義へジャンプ（候補が複数なら fzf で選ぶ） |
+| `grr` | 参照一覧（fzf・プレビュー付き） |
+| `gri` / `grt` | 実装 / 型定義へジャンプ |
+| `<Space>o` | ファイル内のシンボル一覧（関数・クラス） |
+| `Ctrl-o` / `Ctrl-i` | ジャンプ前の位置に戻る / 進む（`gd` で飛んだら `Ctrl-o` で戻る） |
+| `<Space>ih` | 型のインライン表示を切り替え |
+
+### コードを直す
+
+| キー | 動作 |
+|---|---|
+| `grn` | 名前の一括変更（プロジェクト全体の参照も変わる） |
+| `gra` | コードアクション（import の追加・修正の提案） |
+| `]d` / `[d` | 次 / 前のエラーへ |
+| `Ctrl-w d` | カーソル位置のエラーを全文表示 |
+| `<Space>x` | ファイル内のエラー一覧 |
+| `:w` | 保存時にプロジェクトの Formatter で整形 |
+| `<Space>tf` | 保存時の整形のオン / オフ（他人のファイルを最小差分で直すとき） |
+
+### 補完（挿入モード）
+
+| キー | 動作 |
+|---|---|
+| `Ctrl-n` / `Ctrl-p` | 次 / 前の候補 |
+| `Ctrl-y` | 確定 |
+| `Ctrl-Space` | 候補を出す（もう一度でドキュメント） |
+| `Ctrl-e` | 閉じる |
+| `Ctrl-k` | 引数のヒントを切り替え |
+
+### 探す（fzf-lua）
+
+| キー | 動作 |
+|---|---|
+| `<Space>f` | ファイル検索 |
+| `<Space>g` | git 管理のファイルだけ検索 |
+| `<Space>b` | 開いているバッファ |
+| `<Space>/` | プロジェクト全体を全文検索（ripgrep） |
+| `:FzfLua resume` | 直前の検索画面をそのまま再開 |
+
+fzf の画面の中:
+
+| キー | 動作 |
+|---|---|
+| `Enter` | 開く |
+| `Ctrl-v` / `Ctrl-s` / `Ctrl-t` | 縦分割 / 横分割 / タブで開く |
+| `Tab` / `Alt-a` | 複数選択 / 全選択の切り替え |
+| `Alt-q` | 選んだものを quickfix に送る |
+| `F4` | プレビューの表示切り替え |
+| `Shift-↑` / `Shift-↓` | プレビューのスクロール |
+| `Alt-h` / `Alt-i` | 隠しファイル / gitignore 対象も含める |
+
+### Git
+
+| キー | 動作 |
+|---|---|
+| `<Space>gn` / `<Space>gp` | 次 / 前の変更箇所へ |
+| `<Space>hp` | 変更箇所の差分をその場で表示 |
+| `<Space>hs` / `<Space>hu` | 変更箇所だけステージ / 元に戻す |
+| `<Space>gs` | fugitive の status（`s` でステージ、`cc` でコミット） |
+| `<Space>gd` | 差分を左右に並べて表示 |
+
+### 編集の小技
+
+| キー | 動作 |
+|---|---|
+| `gcc` / `<Space>c` | コメントアウト（ビジュアル選択にも使える） |
+| `ysiw"` / `cs"'` / `ds"` | 単語を `"` で囲む / `"` を `'` に変える / 囲みを外す |
+| `Ctrl-n` | 同じ単語を複数選んでまとめて編集（マルチカーソル） |
+| `J` | 下の行と連結 |
+| `<Space>j` / `<Space>k` | 10行下 / 上へ |
+| `]<Space>` / `[<Space>` | 下 / 上に空行を追加 |
+| `]q` / `[q` | quickfix の次 / 前へ |
+| `]b` / `[b` | 次 / 前のバッファへ |
+| `gx` | カーソル下の URL をブラウザで開く |
+
+### 組み合わせ技
+
+- **プロジェクト全体の置換**: `<Space>/` で検索 → `Alt-a` で全選択 → `Alt-q` で quickfix へ → `:cdo s/old/new/g | update`
+- **関数名の変更**: 文字列置換ではなく `grn`。LSP が参照を追うので、同名の別の変数は巻き込まない
+- **undo**: 閉じても履歴が残る。`:earlier 10m` で10分前へ、`g-` / `g+` で分岐も含めて時間順に移動
+- **並べて読む**: `<Space>v` で縦分割して片方で `gd` → 定義と呼び出し元を並べて読める
+
+### 困ったとき
+
+| コマンド | 用途 |
+|---|---|
+| `:checkhealth vim.lsp` | 動いている LSP と、ルートにしているフォルダ |
+| `:ConformInfo` | このファイルで動く Formatter とエラーログ |
+| `:Lazy` | プラグインの状態。`:Lazy update` 後は `lazy-lock.json` を commit する |
+| `:messages` | 消えたエラーメッセージを見直す |
+| `:Inspect` | カーソル位置の色がどのハイライトから来ているか |

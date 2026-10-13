@@ -48,7 +48,7 @@ vim 側はプラグイン、Zed 側は組み込み機能に割り当てている
 | 保存 | `<Leader>w` → `:w` | `space w` → `workspace::Save` |
 | 閉じる | `<Leader>q` → `:q` | `space q` → `pane::CloseActiveItem` |
 | コマンドパレット | （なし） | `space p` → `command_palette::Toggle` |
-| 定義へジャンプ | （ALE/LSP 未設定） | `space d` → `editor::GoToDefinition` |
+| 定義へジャンプ | Neovim: `gd`（fzf-lua）/ Vim: 未設定 | `space d` → `editor::GoToDefinition` |
 | シンボル一覧 | （なし） | `space o` / `space s` |
 | リネーム / 修正 / 整形 | （なし） | `space c r` / `space c a` / `space c f` |
 
@@ -103,8 +103,9 @@ Zed の keymap.json でハマりやすい点。
 
 | エディタ | 設定 | 起動する場面 |
 |---|---|---|
-| ターミナルの vim | `~/.vimrc` | `git commit`（`core.editor = vim`）、`vim <file>` |
+| ターミナルの Neovim | `~/.config/nvim/init.lua` + `~/.vim/common.vim` | `git commit` / `fv`（`$TERM_EDITOR`。既定は nvim）、`nvim <file>` |
+| ターミナルの vim | `~/.vimrc` + `~/.vim/common.vim` | `vim <file>`、`TERM_EDITOR=vim` にしたときの `git commit` / `fv` |
 | Zed の vim モード | `~/.config/zed/{settings,keymap}.json` | GUI での編集全般 |
 
 > Zed 内蔵ターミナルは `"EDITOR": "zed --wait"` を設定しているため、
-> **そこで `git commit` すると vim ではなく Zed が開く**。外部ターミナル（iTerm2）では vim が開く。
+> **そこで `git commit` すると Neovim ではなく Zed が開く**。外部ターミナル（iTerm2）では `$TERM_EDITOR`（既定は nvim）が開く。

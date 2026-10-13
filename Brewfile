@@ -44,6 +44,9 @@ brew "shellcheck"                # シェルスクリプトの静的解析（CI�
 # プラグイン側はバイナリを入れてくれないため、ここで必ず入れること。
 brew "typescript-language-server" # typescript-lsp プラグインが使う
 brew "pyright"                   # pyright-lsp プラグインが使う（pyright-langserver を提供）
+brew "basedpyright"              # Neovim の Python LSP（pyright + Pylance 相当の機能）
+brew "vscode-langservers-extracted" # Neovim の eslint / JSON LSP（vscode-eslint-language-server など）
+brew "yaml-language-server"      # Neovim の YAML LSP
 
 # --- GUI（cask）---
 cask "iterm2"

@@ -39,7 +39,7 @@ help:
 
 doctor:
 	@echo "== 必要ツール =="
-	@for t in stow brew gitleaks asdf git; do command -v $$t >/dev/null 2>&1 && echo "  ok: $$t" || echo "  MISSING: $$t"; done
+	@for t in stow brew gitleaks asdf git nvim uv tree-sitter; do command -v $$t >/dev/null 2>&1 && echo "  ok: $$t" || echo "  MISSING: $$t"; done
 	@echo "== ROOTを指すリンク切れ(幽霊リンク) =="
 	@find $(HOME) -maxdepth 4 -type l 2>/dev/null | while read l; do tgt=$$(readlink "$$l"); case "$$tgt" in $(ROOT)*) [ -e "$$l" ] || echo "  broken: $$l";; esac; done; echo "  (上に何も無ければOK)"
 	@echo "== Brewfile と実機の差分 =="

@@ -8,7 +8,6 @@ return {
   { 'tpope/vim-surround' },     -- 囲み文字の操作
   { 'jiangmiao/auto-pairs' },   -- 括弧の自動補完
   { 'mg979/vim-visual-multi' }, -- マルチカーソル編集（Ctrl-n）
-  { 'github/copilot.vim' },     -- GitHub Copilot（Vim は ~/.vim/pack に手動で導入）
 
   -- --- tmux連携 ---
   -- 【説明】フォーカスイベントは Neovim 標準対応のため vim-tmux-focus-events は不要

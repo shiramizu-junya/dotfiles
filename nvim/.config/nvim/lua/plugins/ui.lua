@@ -27,6 +27,8 @@ return {
       spec = {
         { '<Leader>g', group = 'Git' },
         { '<Leader>h', group = 'Git差分（GitGutter の hunk）' },
+        { '<Leader>i', group = '表示の切り替え' },
+        { '<Leader>t', group = '整形' },
         { '<Leader>j', desc = '10行下へ' },
         { '<Leader>k', desc = '10行上へ' },
       },

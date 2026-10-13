@@ -128,6 +128,7 @@ git add -A && git commit -m "chore: drop <pkg>" && git push
 - 両方で使うプラグインは、`.vimrc` と `lua/plugins/` の両方に書く（設定は `common.vim` に1回だけ）
 - `lua/plugins/` に**新しいファイルを足したときは `make link`** が必要（stow は `--no-folding` のためファイル単位でリンクする）
 - Neovim のプラグイン更新は `:Lazy update`。`lazy-lock.json` が dotfiles に書き出されるので commit する
+- Neovim の Python の Linter / Formatter は、プロジェクトの `.venv` → pre-commit の版 → requirements の版 → 設定ファイルの順に探して、同じ版を uvx で動かす（`lua/project_tools.lua`）。Docker だけで動かすプロジェクトは、エディタ用に `uv venv && uv pip install -r <requirements>` で `.venv` を作ると LSP がライブラリを見つけられる
 
 ### 削除を他Macにも安全に反映
 ```bash

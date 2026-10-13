@@ -2,5 +2,6 @@
 # ここに一本化した（旧 ~/.gitignore_global + core.excludesfile は廃止）
 *~
 .DS_Store
+.venv/
 
 **/.claude/settings.local.json

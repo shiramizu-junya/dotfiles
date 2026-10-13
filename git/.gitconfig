@@ -12,8 +12,9 @@
 [core]
 	# グローバル無視は ~/.config/git/ignore（XDG）に一本化したので excludesfile は不要
 
-	# デフォルトエディタ（vim使用）
-	editor = vim
+	# デフォルトエディタ（~/.zshrc の TERM_EDITOR。未設定なら vim）
+	# git はこの値をシェル経由で実行するため、環境変数が展開される
+	editor = ${TERM_EDITOR:-vim}
 
 	# ページャーにdeltaを使用（美しいdiff表示）
 	pager = delta

@@ -10,6 +10,7 @@
 -- ============================================================
 
 vim.opt.termguicolors = true -- 24bit色（Neovim は t_8f/t_8b 不要）
+vim.o.winborder = 'rounded'  -- ドキュメント表示などのポップアップに枠を付ける
 
 -- --- クリップボード ---
 -- 【説明】Neovim に autoselect は無いため unnamedplus を使う
@@ -19,6 +20,13 @@ vim.opt.clipboard = 'unnamedplus'
 if vim.env.TMUX then
   vim.opt.clipboard = ''
 end
+
+-- --- 使わない外部言語プロバイダを無効化（起動が速くなり :checkhealth の警告も消える）---
+-- 【説明】Python などのプラグインは使っていない。LSP や Linter はプロバイダを使わない
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_node_provider = 0
 
 -- ============================================================
 -- 2. 共通設定の読み込み
@@ -69,5 +77,6 @@ require('lazy').setup({
   spec = { { import = 'plugins' } },
   lockfile = config_dir .. '/lazy-lock.json',
   install = { colorscheme = { 'sorbet' } },
+  rocks = { enabled = false }, -- luarocks が必要なプラグインは使っていない
   change_detection = { notify = false },
 })

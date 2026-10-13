@@ -146,6 +146,14 @@ export RIPGREP_CONFIG_PATH=~/.ripgreprc
 # ~/.zshrc.local で `export GUI_EDITOR=code` とするだけでよい
 export GUI_EDITOR="${GUI_EDITOR:-zed}"
 
+# ターミナルエディタ（fv / git commit が使う）。既定は Neovim（無ければ Vim）。Vim に戻すなら
+# ~/.zshrc.local で `export TERM_EDITOR=vim` とするだけでよい
+# 【注意】EDITOR / VISUAL にはしない（Zed 内蔵ターミナルの EDITOR="zed --wait" を上書きしないため）
+if [ -z "$TERM_EDITOR" ]; then
+  if command -v nvim >/dev/null 2>&1; then TERM_EDITOR=nvim; else TERM_EDITOR=vim; fi
+fi
+export TERM_EDITOR
+
 # --- fzf（ファジーファインダー） ---
 # fzfはあいまい検索ツール。ファイル・履歴・ブランチ等を絞り込み選択できる
 # 以下はfzf起動時のデフォルト表示設定（Draculaテーマ配色）
@@ -399,8 +407,8 @@ fcd() {
 }
 
 # ------------------------------------------------------------
-# fv: ファイルをfzfで検索してvimで開く
-# 使い方: fv と入力 → ファイル一覧から選択 → vimでそのファイルを開く
+# fv: ファイルをfzfで検索してターミナルエディタ（$TERM_EDITOR）で開く
+# 使い方: fv と入力 → ファイル一覧から選択 → Neovim（または Vim）でそのファイルを開く
 # プレビューにファイル内容をシンタックスハイライト付きで表示
 # エイリアス: fvim
 # ------------------------------------------------------------
@@ -409,7 +417,7 @@ fv() {
   selected=$(fd --type f --hidden --exclude .git |
     fzf --preview 'bat --color=always --style=numbers --line-range=:500 {} 2> /dev/null')
   if [ -n "$selected" ]; then
-    vim "$selected"
+    "$TERM_EDITOR" "$selected"
   fi
 }
 

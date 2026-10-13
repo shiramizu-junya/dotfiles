@@ -34,7 +34,9 @@ Plug 'machakann/vim-highlightedyank'                  " ヤンク時にハイラ
 
 " --- tmux連携（重要！）---
 Plug 'christoomey/vim-tmux-navigator'                 " tmuxとVimをシームレスに移動
-Plug 'tmux-plugins/vim-tmux-focus-events'             " tmux内でのフォーカスイベント
+if !has('nvim')
+  Plug 'tmux-plugins/vim-tmux-focus-events'           " tmux内でのフォーカスイベント（Neovimは標準対応）
+endif
 Plug 'roxma/vim-tmux-clipboard'                       " tmuxとクリップボード共有
 
 " --- コード品質 ---
@@ -80,7 +82,9 @@ syntax on                       " シンタックスハイライト有効化
 set background=dark             " ダークモード
 
 " 256色対応（tmux内でも綺麗に表示）
-if exists('+termguicolors')
+if has('nvim')
+  set termguicolors             " Neovimは t_8f/t_8b 不要
+elseif exists('+termguicolors')
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   set termguicolors
@@ -118,7 +122,11 @@ set completeopt=menuone,noinsert,noselect
 
 " --- マウス・クリップボード ---
 set mouse=a                     " マウスを有効化
-set clipboard=unnamed,autoselect " クリップボード連携
+if has('nvim')
+  set clipboard=unnamedplus     " クリップボード連携（Neovimに autoselect は無い）
+else
+  set clipboard=unnamed,autoselect " クリップボード連携
+endif
 
 " tmux内でのクリップボード設定
 if exists('$TMUX')

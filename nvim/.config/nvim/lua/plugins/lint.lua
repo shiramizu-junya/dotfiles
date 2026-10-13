@@ -11,7 +11,7 @@ return {
     vim.g.ale_sign_warning = '⚠'
     vim.g.ale_linters = {
       javascript = { 'eslint' },
-      python = { 'flake8', 'pylint' },
+      python = { 'pyright', 'flake8', 'pylint' },
       typescript = { 'tsserver', 'eslint' },
     }
     vim.g.ale_fixers = {
@@ -21,5 +21,11 @@ return {
       python = { 'black', 'isort' },
     }
     vim.g.ale_fix_on_save = 1
+    vim.g.ale_hover_to_floating_preview = 1
   end,
+  -- K でカーソル下のドキュメントを表示（LSP を入れたら Neovim 標準の K に任せる）
+  keys = {
+    { 'K', '<Cmd>ALEHover<CR>', desc = 'ドキュメント表示' },
+  },
+  lazy = false,
 }

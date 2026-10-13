@@ -13,7 +13,7 @@ Zed による再実装なので、`inoremap` / `set` / プラグインという 
 
 | 層 | 例 | 自動変換 |
 |---|---|---|
-| キー → キー | `nnoremap J 10j` | ⭕ `workspace::SendKeystrokes` で機械的に書ける |
+| キー → キー | `nnoremap <Leader>j 10j` | ⭕ `workspace::SendKeystrokes` で機械的に書ける |
 | キー → コマンド | `nnoremap <Leader>e :NERDTreeToggle<CR>` | ❌ プラグイン名 → Zed アクション名の辞書が要る |
 | `set` / プラグイン設定 | `set relativenumber` | △ Zed の settings.json に等価物がある分だけ |
 
@@ -29,7 +29,8 @@ Zed による再実装なので、`inoremap` / `set` / プラグインという 
 | 操作 | `.vimrc` | Zed keymap.json |
 |---|---|---|
 | `jj` でインサートを抜ける | `inoremap <silent> jj <ESC>` | `"j j": "vim::NormalBefore"` |
-| 10行下/上へ | `nnoremap J 10j` / `K 10k` | `"shift-j"` / `"shift-k"`: `SendKeystrokes "1 0 j"` / `"1 0 k"` |
+| 10行下/上へ | `nnoremap <Leader>j 10j` / `<Leader>k 10k` | `"space j"` / `"space k"`: `SendKeystrokes "1 0 j"` / `"1 0 k"` |
+| ドキュメント表示 | `K` → `:ALEHover`（Vim）/ LSP 標準の hover（Neovim） | `K`（Zed 既定の `editor::Hover`） |
 | 半ページ送り＋中央寄せ | `nnoremap <C-d> <C-d>zz` / `<C-u> <C-u>zz` | `"ctrl-d"` / `"ctrl-u"`: `SendKeystrokes "ctrl-d z z"` / `"ctrl-u z z"` |
 | 矢印キー無効化 | `noremap <up> <nop>` ほか8本 | `"up"` / `"down"` / `"left"` / `"right"`: `null` |
 

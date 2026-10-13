@@ -62,6 +62,13 @@ if exists('+termguicolors')
   set termguicolors
 endif
 
+" --- undo 履歴の保存先 ---
+" 【説明】既定ではファイルと同じ場所に作られるため、専用のフォルダにまとめる（Neovim は ~/.local/state/nvim/undo）
+set undodir=~/.local/state/vim/undo//
+if !isdirectory(expand('~/.local/state/vim/undo'))
+  call mkdir(expand('~/.local/state/vim/undo'), 'p')
+endif
+
 " --- クリップボード ---
 set clipboard=unnamed,autoselect " クリップボード連携
 
@@ -85,7 +92,7 @@ let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '⚠'
 let g:ale_linters = {
 \   'javascript': ['eslint'],
-\   'python': ['flake8', 'pylint'],
+\   'python': ['pyright', 'flake8', 'pylint'],
 \   'typescript': ['tsserver', 'eslint'],
 \}
 let g:ale_fixers = {
@@ -95,6 +102,10 @@ let g:ale_fixers = {
 \   'python': ['black', 'isort'],
 \}
 let g:ale_fix_on_save = 1
+
+" K でカーソル下のドキュメントを表示（pyright / tsserver が対応する言語のみ）
+let g:ale_hover_to_floating_preview = 1
+nnoremap <silent> K :ALEHover<CR>
 
 " --- IndentLine（インデント表示）---
 let g:indentLine_char = '┊'

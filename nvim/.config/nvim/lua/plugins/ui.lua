@@ -18,6 +18,21 @@ return {
     },
   },
 
+  -- <Space> などを押して待つと、続けて押せるキーの一覧を出す
+  {
+    'folke/which-key.nvim',
+    event = 'VeryLazy',
+    opts = {
+      icons = { mappings = false }, -- アイコン用プラグインを入れていないため
+      spec = {
+        { '<Leader>g', group = 'Git' },
+        { '<Leader>h', group = 'Git差分（GitGutter の hunk）' },
+        { '<Leader>j', desc = '10行下へ' },
+        { '<Leader>k', desc = '10行上へ' },
+      },
+    },
+  },
+
   -- --- カラースキーム（common.vim で切り替えたときに使う）---
   { 'morhetz/gruvbox', lazy = true },
   { 'dracula/vim', name = 'dracula', lazy = true },

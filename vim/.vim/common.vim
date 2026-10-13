@@ -20,6 +20,7 @@ set nowritebackup               " 保存時のバックアップを作らない
 set noswapfile                  " スワップファイルを作らない
 set autoread                    " 外部で変更されたら自動で読み込む
 set hidden                      " 保存せずに別ファイルを開ける
+set undofile                    " 閉じた後も undo できるように履歴を保存（保存先は Vim / Neovim で別）
 
 " --- 表示設定 ---
 set number                      " 行番号を表示
@@ -31,6 +32,7 @@ set laststatus=2                " ステータスラインを常に表示
 set showcmd                     " 入力中のコマンドを表示
 set cmdheight=2                 " コマンドラインの高さ
 set title                       " タイトルを表示
+set signcolumn=yes              " 記号の列を常に表示（エラーや Git 差分の記号で画面がずれない）
 
 " --- 色設定 ---
 " 【注意】termguicolors は Vim / Neovim で書き方が違うため、それぞれの設定ファイルで行う
@@ -110,8 +112,10 @@ inoremap <right> <nop>
 inoremap <silent> jj <ESC>
 
 " --- 移動の強化 ---
-nnoremap J 10j
-nnoremap K 10k
+" 【注意】J は本来の「行をつなげる」、K は「ドキュメント表示」に使うため、10行移動はリーダーキーで
+" K の割り当ては Vim（.vimrc の ALE）と Neovim（標準の LSP）で実装が違うため、それぞれで行う
+nnoremap <Leader>j 10j
+nnoremap <Leader>k 10k
 
 " --- スムーズスクロール ---
 nnoremap <C-d> <C-d>zz

@@ -22,6 +22,15 @@ return {
     signature = { enabled = true },
     sources = {
       default = { 'lsp', 'path', 'snippets', 'buffer' },
+      providers = {
+        -- `.` の直後（メソッドや属性の補完）ではスニペットを出さない
+        snippets = {
+          should_show_items = function(ctx)
+            local start = ctx.bounds.start_col -- 入力中の単語の先頭（1始まり）
+            return ctx.line:sub(start - 1, start - 1) ~= '.'
+          end,
+        },
+      },
     },
     -- コマンドライン（:）の補完は今までどおり Neovim 標準を使う
     cmdline = { enabled = false },

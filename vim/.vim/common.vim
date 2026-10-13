@@ -39,6 +39,26 @@ set signcolumn=yes              " 記号の列を常に表示（エラーや Git
 syntax on                       " シンタックスハイライト有効化
 set background=dark             " ダークモード
 
+" --- ポップアップ（K のドキュメント・補完の候補）の色 ---
+" 【説明】sorbet はポップアップが明るい灰色の背景に黒文字で見づらいため、エディタの背景に近い暗い色にする
+" カラースキームを読み込むたびに上書きされるため、ColorScheme のタイミングで設定し直す（sorbet のときだけ）
+function! s:sorbet_popup() abort
+  hi Pmenu      guifg=#dadada guibg=#22252f ctermfg=253 ctermbg=235
+  hi PmenuSel   guifg=#ffffff guibg=#3e4452 gui=bold ctermfg=255 ctermbg=238 cterm=bold
+  hi PmenuKind  guifg=#87afd7 guibg=#22252f ctermfg=110 ctermbg=235
+  hi PmenuExtra guifg=#8a8f98 guibg=#22252f ctermfg=245 ctermbg=235
+  hi PmenuSbar  guibg=#22252f ctermbg=235
+  hi PmenuThumb guibg=#5f6377 ctermbg=60
+  " ドキュメントの窓はエディタと同じ背景にして、枠線で区切る（Neovim のみ使う）
+  hi! link NormalFloat Normal
+  hi FloatBorder guifg=#5f6377 guibg=#161821 ctermfg=60 ctermbg=233
+endfunction
+
+augroup sorbet_popup
+  autocmd!
+  autocmd ColorScheme sorbet call s:sorbet_popup()
+augroup END
+
 " カラースキーム（お好みで変更してください）
 colorscheme sorbet
 " colorscheme gruvbox

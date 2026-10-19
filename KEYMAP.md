@@ -1,8 +1,9 @@
-# KEYMAP — vim と Zed の対応表 / Neovim のキー
+# KEYMAP — vim と Zed の対応表 / Neovim のキー / tmux のキー
 
 `~/.vimrc`（ターミナルの vim）と `zed/.config/zed/keymap.json`（Zed の vim モード）の対応。
 **片方を変えたら、この表を見てもう片方も直す。**
-Neovim だけのキー（LSP・補完・検索など）とテクニックは [5. Neovim のキーとテクニック](#5-neovim-のキーとテクニック)。
+Neovim だけのキー（LSP・補完・検索など）とテクニックは [5. Neovim のキーとテクニック](#5-neovim-のキーとテクニック)、
+tmux のキーは [6. tmux のキー](#6-tmux-のキー)。
 
 ## なぜ2つ必要なのか
 
@@ -215,3 +216,47 @@ fzf の画面の中:
 | `:Lazy` | プラグインの状態。`:Lazy update` 後は `lazy-lock.json` を commit する |
 | `:messages` | 消えたエラーメッセージを見直す |
 | `:Inspect` | カーソル位置の色がどのハイライトから来ているか |
+
+## 6. tmux のキー
+
+プレフィックスは **`Ctrl-a`**（以下 `prefix`）。設定は `tmux/.tmux.conf`、変えたら `prefix r` で再読み込み。
+
+### ウィンドウ・セッションの移動
+
+| キー | 動作 |
+|---|---|
+| `prefix f` | 全セッションのウィンドウを fzf で検索して移動（`iapi dock` のように打つ。標準の `find-window` を置き換え） |
+| `prefix s` | セッション一覧（名前順）。`→` で中のウィンドウを展開して選べる |
+| `prefix w` | 今のセッションのウィンドウ一覧（プレビュー付き） |
+| `prefix 1`〜`9` | 番号のウィンドウへ |
+| `prefix C-p` / `prefix C-n` | 前 / 次のウィンドウへ（押しっぱなしで連続） |
+| `prefix a` | Claude Code が入力待ちのウィンドウへ（セッションをまたぐ・連打で巡回） |
+| `prefix d` | デタッチ |
+
+### ウィンドウ・ペインの操作
+
+| キー | 動作 |
+|---|---|
+| `prefix c` | 新しいウィンドウ（今のディレクトリで開く） |
+| `prefix \|` / `prefix -` | 左右 / 上下に分割（今のディレクトリで開く） |
+| `Ctrl-h` / `Ctrl-j` / `Ctrl-k` / `Ctrl-l` | ペイン移動（プレフィックス不要。Vim の分割ともシームレスに移動） |
+| `prefix H` / `J` / `K` / `L` | ペインのサイズ変更（押しっぱなしで連続） |
+| `prefix m` | ペインの最大化 / 復元 |
+| `prefix S` | 全ペインに同じ入力を送る（同期）の切り替え |
+
+### コピー
+
+| キー | 動作 |
+|---|---|
+| `prefix [` | コピーモード開始（vi キーで移動） |
+| `v` / `Ctrl-v` | 選択開始 / 矩形選択の切り替え |
+| `y` / `Enter` | 選択をクリップボードへコピーして終了 |
+| `prefix ]` | 貼り付け |
+| `prefix Tab` | ペイン内のパス・URL・単語を fzf で選んでコピー（extrakto） |
+
+### セッションの保存・復元（tmux-resurrect / continuum）
+
+| キー | 動作 |
+|---|---|
+| `prefix Ctrl-s` | 今の状態を保存（continuum が15分ごとに自動保存もする） |
+| `prefix Ctrl-r` | 保存した状態を復元 |
